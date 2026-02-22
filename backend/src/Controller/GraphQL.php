@@ -4,51 +4,76 @@ namespace App\Controller;
 
 use App\Config\Database;
 use App\GraphQL\SchemaFactory;
+use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Schema;
-use GraphQL\Type\SchemaConfig;
+use GraphQL\Error\FormattedError;
 use RuntimeException;
 use Throwable;
 
-class GraphQL {
-    static public function handle() {
+class GraphQL
+{
+    public static function handle(array $vars = []): string
+    {
         try {
-           $rawInput = file_get_contents('php://input');
-           if($rawInput === false){
-            throw new RuntimeException("Failer to read request body (php://input)");
-           }
+            $len = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);
+            $rawInput = '';
 
-           $input = json_decode($rawInput, true, 512, JSON_THROW_ON_ERROR);
+            if ($len > 0) {
+                $stream = fopen('php://input', 'rb');
+                if ($stream === false) {
+                    throw new RuntimeException('Failed to open php://input');
+                }
+                $rawInput = (string) stream_get_contents($stream, $len);
+                fclose($stream);
+            } else {
+                $rawInput = (string) file_get_contents('php://input');
+            }
 
-           $query = $input['query'] ?? null;
-           if(!$query) {
-            throw new RuntimeException('Missing "query" in request body');
-           }
+            if (trim($rawInput) === '') {
+                throw new RuntimeException('Empty request body. Send JSON: {"query":"{ products }"}');
+            }
 
-           $variableValues = $input['variable'] ?? null;
+            $input = json_decode($rawInput, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new RuntimeException('Invalid JSON body: ' . json_last_error_msg());
+            }
 
-           $database = new Database();
-           $schemaFactory = new SchemaFactory($database);
-           $schema = $schemaFactory->create();
+            $query = $input['query'] ?? null;
+            if (!$query) {
+                throw new RuntimeException('Missing "query" in request body');
+            }
 
-           $result = GraphQLBase::executeQuery(
-                schema: $schema,
-                source: $query,
-                contextValue: [
-                    'db' => $database->getConnection(),
-                ],
-                variableValues: $variableValues,
-           );
+            $variableValues = $input['variables'] ?? null;
 
-           $output = $result->toArray();
+            $database = new Database();
+            $schemaFactory = new SchemaFactory($database);
+            $schema = $schemaFactory->create();
 
+            $result = GraphQLBase::executeQuery(
+                $schema,
+                $query,
+                null,
+                ['db' => $database->getConnection()],
+                $variableValues
+            );
+
+            $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+
+            if ($debug) {
+                $output = $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE);
+            } else {
+                $output = $result->toArray();
+            }
         } catch (Throwable $e) {
+            $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+
+            $error = FormattedError::createFromException(
+                $e,
+                $debug ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE
+            );
+
             $output = [
-                'error' => [
-                    'message' => $e->getMessage(),
-                ],
+                'errors' => [$error],
             ];
         }
 
