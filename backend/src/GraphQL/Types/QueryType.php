@@ -10,17 +10,17 @@ use App\Repository\ProductRepository;
 class QueryType extends ObjectType {
     public function __construct(Database $database)
     {
-        $config = [
-            "name" => "Query",
-            "fields" => [
-                "products" => Type::listOf(Type::string()),
-                "resolve" => function () use ($database) {
-                    $repo = new ProductRepository($database->getConnection());
-                    return $repo->getAll();
-                }
-            ]
-        ];
-
-        parent::__construct($config);
+        parent::__construct([
+            'name' => 'Query',
+            'fields' => [
+                'products' => [
+                    'type' => Type::listOf(Type::string()),
+                    'resolve' => function () use ($database) {
+                        $repo = new ProductRepository($database->getConnection());
+                        return $repo->getAll();
+                    },
+                ],
+            ],
+        ]);
     }
 }
