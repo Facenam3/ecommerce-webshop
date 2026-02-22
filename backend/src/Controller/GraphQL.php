@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Config\Database;
+use App\GraphQL\SchemaFactory;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -13,53 +15,35 @@ use Throwable;
 class GraphQL {
     static public function handle() {
         try {
-            $queryType = new ObjectType([
-                'name' => 'Query',
-                'fields' => [
-                    'echo' => [
-                        'type' => Type::string(),
-                        'args' => [
-                            'message' => ['type' => Type::string()],
-                        ],
-                        'resolve' => static fn ($rootValue, array $args): string => $rootValue['prefix'] . $args['message'],
-                    ],
+           $rawInput = file_get_contents('php://input');
+           if($rawInput === false){
+            throw new RuntimeException("Failer to read request body (php://input)");
+           }
+
+           $input = json_decode($rawInput, true, 512, JSON_THROW_ON_ERROR);
+
+           $query = $input['query'] ?? null;
+           if(!$query) {
+            throw new RuntimeException('Missing "query" in request body');
+           }
+
+           $variableValues = $input['variable'] ?? null;
+
+           $database = new Database();
+           $schemaFactory = new SchemaFactory($database);
+           $schema = $schemaFactory->create();
+
+           $result = GraphQLBase::executeQuery(
+                schema: $schema,
+                source: $query,
+                contextValue: [
+                    'db' => $database->getConnection(),
                 ],
-            ]);
-        
-            $mutationType = new ObjectType([
-                'name' => 'Mutation',
-                'fields' => [
-                    'sum' => [
-                        'type' => Type::int(),
-                        'args' => [
-                            'x' => ['type' => Type::int()],
-                            'y' => ['type' => Type::int()],
-                        ],
-                        'resolve' => static fn ($calc, array $args): int => $args['x'] + $args['y'],
-                    ],
-                ],
-            ]);
-        
-            // See docs on schema options:
-            // https://webonyx.github.io/graphql-php/schema-definition/#configuration-options
-            $schema = new Schema(
-                (new SchemaConfig())
-                ->setQuery($queryType)
-                ->setMutation($mutationType)
-            );
-        
-            $rawInput = file_get_contents('php://input');
-            if ($rawInput === false) {
-                throw new RuntimeException('Failed to get php://input');
-            }
-        
-            $input = json_decode($rawInput, true);
-            $query = $input['query'];
-            $variableValues = $input['variables'] ?? null;
-        
-            $rootValue = ['prefix' => 'You said: '];
-            $result = GraphQLBase::executeQuery($schema, $query, $rootValue, null, $variableValues);
-            $output = $result->toArray();
+                variableValues: $variableValues,
+           );
+
+           $output = $result->toArray();
+
         } catch (Throwable $e) {
             $output = [
                 'error' => [
