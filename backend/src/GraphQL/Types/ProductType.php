@@ -24,9 +24,11 @@ final class ProductType extends ObjectType {
 
                 'attributes' => [
                     'type' => Type::nonNull(Type::listOf(Type::nonNull($attributeSetType))),
-                    'resolve' => static function(array $product, array $args, array $context) {
+                    'resolve' => static function (array $product, array $args, array $context) {
+                        /** @var \App\Service\AttributeService $attributeService */
                         $attributeService = $context['attributeService'];
-                        return $attributeService->getByPoductId((string)$product['id']);
+
+                        return $attributeService->getByProductId((string)$product['id']);
                     },
                 ],
             ],

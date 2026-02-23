@@ -21,7 +21,7 @@ class ProductRepository {
             p.description,
             p.brand,
             c.name as category
-            FROM prdoucts p
+            FROM products p
             INNER JOIN categories c ON c.id = p.category_id
             ORDER BY p.id
         ";
