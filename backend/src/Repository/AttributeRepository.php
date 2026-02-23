@@ -19,8 +19,10 @@ final class AttributeRepository {
             i.display_value as item_display_value,
             i.value AS item_value
             FROM product_attribute_sets pas
-            INNER JOIN attribute sets s
+            INNER JOIN attribute_sets s
                 ON s.id = pas.attribute_set_id
+            LEFT JOIN attribute_items i
+                ON i.attribute_set_id = s.id
             WHERE pas.product_id = :product_id
             ORDER BY s.id, i.id
         ";

@@ -12,8 +12,20 @@ class ProductRepository {
         $this->pdo = $pdo;
     }
 
-    public function getAll() : array {
-        $stmt = $this->pdo->query("SELECT name FROM products");
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    public function fetchAll() : array {
+        $sql = "
+            SELECT 
+            p.id,
+            p.name,
+            p.in_stock,
+            p.description,
+            p.brand,
+            c.name as category
+            FROM prdoucts p
+            INNER JOIN categories c ON c.id = p.category_id
+            ORDER BY p.id
+        ";
+
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
