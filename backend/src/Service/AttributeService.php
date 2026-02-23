@@ -15,7 +15,7 @@ final class AttributeService {
         private AttributeSetFactory $attributeSetFactory,
     ) {}
 
-    public function getProductId(string $productId): array {
+    public function getByProductId(string $productId): array {
         $rows = $this->attributeRepository->fetchByProductId($productId);
 
         $grouped = [];
