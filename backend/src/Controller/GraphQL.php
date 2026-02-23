@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Config\Database;
+use App\Factory\AttributeSetFactory;
 use App\GraphQL\SchemaFactory;
+use App\Repository\AttributeRepository;
+use App\Repository\ProductRepository;
+use App\Service\AttributeService;
 use GraphQL\Error\DebugFlag;
-use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Error\FormattedError;
+use GraphQL\GraphQL as GraphQLBase;
 use RuntimeException;
 use Throwable;
 
@@ -46,24 +50,34 @@ class GraphQL
             $variableValues = $input['variables'] ?? null;
 
             $database = new Database();
-            $schemaFactory = new SchemaFactory($database);
+            $pdo = $database->getConnection();
+
+            $productRepository = new ProductRepository($pdo);
+
+            $attributeRepository = new AttributeRepository($pdo);
+            $attributeSetFactory = new AttributeSetFactory();
+            $attributeService = new AttributeService($attributeRepository, $attributeSetFactory);
+
+            $schemaFactory = new SchemaFactory();
             $schema = $schemaFactory->create();
 
             $result = GraphQLBase::executeQuery(
                 $schema,
                 $query,
                 null,
-                ['db' => $database->getConnection()],
+                [
+                    'db' => $pdo,
+                    'productRepository' => $productRepository,
+                    'attributeService' => $attributeService,    
+                ],
                 $variableValues
             );
 
             $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 
-            if ($debug) {
-                $output = $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE);
-            } else {
-                $output = $result->toArray();
-            }
+           $output = $debug
+                ? $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE)
+                : $result->toArray();
         } catch (Throwable $e) {
             $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 
