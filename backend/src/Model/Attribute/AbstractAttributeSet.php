@@ -23,6 +23,10 @@ abstract class AbstractAttributeSet {
         return $this->id;
     }
 
+    public function getName(): string {
+        return $this->name;
+    }
+
     public function getItems() : array
     {
         return $this->items;
