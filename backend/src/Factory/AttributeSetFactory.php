@@ -11,7 +11,7 @@ use App\Model\Attribute\AttributeItem;
 
 final class AttributeSetFactory {
     private array $map = [
-        "text" => TextAttributeSet::class,
+        "text" =>   TextAttributeSet::class,
         "swatch" => SwatchAttributeSet::class,
     ];
 
