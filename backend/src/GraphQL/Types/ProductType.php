@@ -29,6 +29,12 @@ final class ProductType extends ObjectType {
                         return $context['attributeService']->getByProductId($product->getId());
                     },
                 ],
+                'gallery' => [
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Type::string()))),
+                    'resolve' => static function (AbstractProduct $product, array $args, array $context) : array {
+                        return $context['galleryService']->getByProductId($product->getId());
+                    }
+                ],
             ],
             'resolveField' => static fn (AbstractProduct $product, array $args, $context, $info) => 
                 match ($info->fieldName) {

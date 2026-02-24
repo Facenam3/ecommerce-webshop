@@ -7,7 +7,9 @@ use App\Factory\AttributeSetFactory;
 use App\GraphQL\SchemaFactory;
 use App\Repository\AttributeRepository;
 use App\Repository\ProductRepository;
+use App\Repository\GalleryRepository;
 use App\Service\AttributeService;
+use App\Service\GalleryService;
 use GraphQL\Error\DebugFlag;
 use GraphQL\Error\FormattedError;
 use GraphQL\GraphQL as GraphQLBase;
@@ -53,10 +55,12 @@ class GraphQL
             $pdo = $database->getConnection();
 
             $productRepository = new ProductRepository($pdo);
-
             $attributeRepository = new AttributeRepository($pdo);
+            $galleryRepository = new GalleryRepository($pdo);
+
             $attributeSetFactory = new AttributeSetFactory();
             $attributeService = new AttributeService($attributeRepository, $attributeSetFactory);
+            $galleryService = new GalleryService($galleryRepository);
 
             $schemaFactory = new SchemaFactory();
             $schema = $schemaFactory->create();
@@ -69,6 +73,7 @@ class GraphQL
                     'db' => $pdo,
                     'productRepository' => $productRepository,
                     'attributeService' => $attributeService,    
+                    'galleryService' => $galleryService,
                 ],
                 $variableValues
             );
