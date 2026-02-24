@@ -7,6 +7,7 @@ namespace App\GraphQL\Types;
 use App\Service\AttributeService;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use App\Model\Product\AbstractProduct;
 
 final class ProductType extends ObjectType {
     public function __construct() {
@@ -24,22 +25,19 @@ final class ProductType extends ObjectType {
 
                 'attributes' => [
                     'type' => Type::nonNull(Type::listOf(Type::nonNull($attributeSetType))),
-                    'resolve' => static function (array $product, array $args, array $context) {
-                        /** @var \App\Service\AttributeService $attributeService */
-                        $attributeService = $context['attributeService'];
-
-                        return $attributeService->getByProductId((string)$product['id']);
+                    'resolve' => static function (AbstractProduct $product, array $args, array $context) {
+                        return $context['attributeService']->getByProductId($product->getId());
                     },
                 ],
             ],
-            'resolveField' => static fn (array $product, array $args, $context, $info) => 
+            'resolveField' => static fn (AbstractProduct $product, array $args, $context, $info) => 
                 match ($info->fieldName) {
-                    'id' => (string)$product['id'],
-                    'name' => (string)$product['name'],
-                    'inStock' => (bool)$product['in_stock'],
-                    'description' => $product['description'],
-                    'brand' => $product['brand'],
-                    'category' => (string)$product['category'],
+                    'id' => $product->getId(),
+                    'name' => $product->getName(),
+                    'inStock' => $product->isInStock(),
+                    'description' => $product->getDescription(),
+                    'brand' => $product->getBrand(),
+                    'category' => $product->getCategory(),
                     default => null,
                 },
         ]);
