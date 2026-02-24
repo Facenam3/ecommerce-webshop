@@ -66,7 +66,7 @@ final class Seeder
         );
 
         foreach($categories as $cat) {
-            $name = (string)($cate['name'] ?? "");
+            $name = (string)($cat['name'] ?? "");
             if($name === ""){
                 continue;
             }
@@ -138,7 +138,7 @@ final class Seeder
             "
         );
 
-        $inserGallery = $this->pdo->prepare(
+        $insertGallery = $this->pdo->prepare(
             "INSERT INTO product_gallery (product_id, image_url, position)
             VALUES (:product_id, :image_url, :position)"
         );
@@ -159,10 +159,20 @@ final class Seeder
             ON DUPLICATE KEY UPDATE name = VALUES(name), type = VALUES(type)"
         );
 
-        $insertAttrItem = $this->pdo->prepare(
-            "INSERT INTO attribute_items (attribute_set_id, id, display_value, value)
-            VALUES (:set_id, :id, :display_value, :value)
-            ON DUPLICATE KEY UPDATE display_value = VALUES(display_value), value = VALUES(value)"
+        $insertProductAttrItem = $this->pdo->prepare(
+            "INSERT INTO product_attribute_items 
+            (product_id, attribute_set_id, item_id, display_value, value, position)
+            VALUES
+            (:product_id, :set_id, :item_id, :display_value, :value, :position)
+            ON DUPLICATE KEY UPDATE
+            display_value = VALUES(display_value),
+            value = VALUES(value),
+            position = VALUES(position)
+            "
+        );
+
+        $deleteProductAttrItems = $this->pdo->prepare(
+            'DELETE FROM product_attribute_items WHERE product_id = :product_id'
         );
 
         $insertProductAttrSet = $this->pdo->prepare(
@@ -219,7 +229,7 @@ final class Seeder
                     $url = (string)$url;
                     if($url === '') continue;
 
-                    $inserGallery->execute([
+                    $insertGallery->execute([
                         ':product_id' => $id,
                         ':image_url' => $url,
                         ':position' => $pos,
@@ -239,7 +249,7 @@ final class Seeder
                     if(!is_numeric($amount) || !is_array($currency)) continue;
 
                     $code = (string)($currency['label'] ?? '');
-                    if(!$code === "") continue;
+                    if($code === "") continue;
 
                     $insertPrice->execute([
                         ':product_id' => $id,
@@ -250,6 +260,7 @@ final class Seeder
             }
 
             $deleteProductAttrSets->execute([':product_id' => $id]);
+            $deleteProductAttrItems->execute([':product_id' => $id]);
 
             $attributeSets = $p['attributes'] ?? [];
             if(is_array($attributeSets)) {
@@ -273,21 +284,23 @@ final class Seeder
 
                     $items = $set["items"] ?? [];
                     if(is_array($items)) {
+                        $pos = 0;
                         foreach($items as $item) {
                             if(!is_array($item)) continue;
 
                             $itemId = (string)($item['id'] ?? "");
-                            $displayValue = (string)($item['displayValue'] ?? "");
-                            $value = (string)($item['value'] ?? "");
+                            if($itemId === '') continue;
 
-                            if($itemId === "") continue;
-
-                            $insertAttrItem->execute([
+                            $insertProductAttrItem->execute([
+                                ':product_id' => $id,
                                 ':set_id' => $setId,
-                                ':id' => $itemId,
-                                ':display_value' => $displayValue,
-                                ':value' => $value,
+                                ':item_id' => $itemId,
+                                ':display_value' => (string)($item['displayValue'] ?? ''),
+                                ':value' => (string)($item['value'] ?? ''),
+                                'position' => $pos,
                             ]);
+
+                            $pos++;
                         }
                     }
 

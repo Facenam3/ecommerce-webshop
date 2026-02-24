@@ -11,20 +11,21 @@ final class AttributeRepository {
    
     public function fetchByProductId(string $productId) : array {
         $sql = "
-            SELECT
+           SELECT 
             s.id AS set_id,
             s.name AS set_name,
             s.type AS set_type,
-            i.id AS item_id,
-            i.display_value as item_display_value,
-            i.value AS item_value
-            FROM product_attribute_sets pas
-            INNER JOIN attribute_sets s
-                ON s.id = pas.attribute_set_id
-            LEFT JOIN attribute_items i
-                ON i.attribute_set_id = s.id
-            WHERE pas.product_id = :product_id
-            ORDER BY s.id, i.id
+            pai.item_id AS item_id,
+            pai.display_value AS item_display_value,
+            pai.value AS item_value
+           FROM product_attribute_sets pas
+           INNER JOIN attribute_sets s
+            ON s.id = pas.attribute_set_id
+           LEFT JOIN product_attribute_items pai
+            ON pai.product_id = pas.product_id
+            AND pai.attribute_set_id = s.id
+           WHERE pas.product_id = :product_id
+           ORDER BY s.id, pai.position, pai.item_id
         ";
 
         $stmt = $this->pdo->prepare($sql);
