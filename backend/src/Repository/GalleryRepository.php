@@ -17,13 +17,10 @@ final class GalleryRepository {
             ORDER BY position ASC
         ";
 
-        error_log("GalleryRepository productId=" . $productId);
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':product_id' => $productId]);
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        error_log("GalleryRepository rows=" . count($rows));
         
         $urls = [];
         foreach($rows as $row) {

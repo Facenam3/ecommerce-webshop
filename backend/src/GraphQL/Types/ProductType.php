@@ -12,6 +12,7 @@ use App\Model\Product\AbstractProduct;
 final class ProductType extends ObjectType {
     public function __construct() {
         $attributeSetType = new AttributeSetType();
+        $priceType = new PriceType();
 
         parent::__construct([
             'name' => "Product",
@@ -22,7 +23,6 @@ final class ProductType extends ObjectType {
                 'description' => Type::string(),
                 'brand' => Type::string(),
                 'category' => Type::nonNull(Type::string()),
-
                 'attributes' => [
                     'type' => Type::nonNull(Type::listOf(Type::nonNull($attributeSetType))),
                     'resolve' => static function (AbstractProduct $product, array $args, array $context) {
@@ -33,6 +33,12 @@ final class ProductType extends ObjectType {
                     'type' => Type::nonNull(Type::listOf(Type::nonNull(Type::string()))),
                     'resolve' => static function (AbstractProduct $product, array $args, array $context) : array {
                         return $context['galleryService']->getByProductId($product->getId());
+                    }
+                ],
+                'prices' => [
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull($priceType))),
+                    'resolve' => static function (AbstractProduct $product, array $args, array $context) : array {
+                        return $context['priceService']->getByProductId($product->getId());
                     }
                 ],
             ],
