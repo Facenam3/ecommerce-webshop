@@ -45,4 +45,17 @@ class ProductRepository {
 
         return $products;
     }
+
+    public function fetchByCategoryId(int $categoryId): array {
+
+        $sql = "SELECT * FROM products 
+                WHERE category_id = :category_id
+                ORDER BY name ASC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['category_id' => $categoryId]);
+
+        return $this->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
 }
