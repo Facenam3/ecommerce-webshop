@@ -11,14 +11,18 @@ use App\GraphQL\Types\ProductType;
 final class CategoryType extends ObjectType {
     public function __construct(){
 
-        $productType = new ProductType();
-
         parent::__construct([
             'name' => 'Category',
-            'fields' => [
+            'fields' => fn() => [
                 'id' => Type::nonNull(Type::int()),
                 'name' => Type::nonNull(Type::string()),
-            ],
+
+                'products' => [
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::product()))),
+                    'resolve' => fn(array $category, array $args, array $context) => 
+                    $context['productRepository']->fetchByCategoryId((int)$category['id']),
+                ]
+            ],            
         ]);
     }
 }

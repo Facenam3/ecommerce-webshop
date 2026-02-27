@@ -20,9 +20,14 @@ final class CategoryRepository{
 
     public function fetchById(int $id) : ?array {
 
-        $sql = "SELECT id, name FROM categories WHERE id = :id LIMIT 1";
+        $sql = "
+            SELECT id, name
+            FROM categories
+            WHERE id = :id
+            LIMIT 1
+        ";
         
-        $stmt = $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
