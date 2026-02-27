@@ -10,14 +10,12 @@ use GraphQL\Type\Definition\Type;
 final class PriceType extends ObjectType {
 
     public function __construct(){
-
-        $currencyType = new CurrencyType();
         
         parent::__construct([
             'name' => "Price",
             'fields' => [
                 'amount' => Type::nonNull(Type::float()),
-                'currency' => Type::nonNull($currencyType),
+                'currency' => Type::nonNull(Types::currency()),
             ],
             'resolveField' => static fn (array $price, array $args, $context, $info) =>
                 match($info->fieldName) {

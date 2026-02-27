@@ -13,32 +13,29 @@ use App\GraphQL\Types\CategoryType;
 class QueryType extends ObjectType {
     public function __construct()
     {
-        $productType = new ProductType();
-        $categoryType = new CategoryType();
-
         parent::__construct([
             'name' => 'Query',
             'fields' => [
                 'products' => [
-                    'type' => Type::nonNull(Type::listOf(Type::nonNull($productType))),
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::product()))),
                     'resolve' => static function ($root, array $args, array $context) {
                         $productRepo = $context['productRepository'];
                         return $productRepo->fetchAll();
                     }
                 ],
                 'categories' => [
-                    'type' => Type::nonNull(Type::listOf(Type::nonNull($categoryType))),
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::category()))),
                     'resolve' => fn($root, array $args, array $context) => $context['categoryService']->getAll(),
                 ],
                 'category' => [
-                    'type' => $categoryType,
+                    'type' => Types::category(),
                     'args' => [
                         'id' => Type::nonNull(Type::int()),
                     ],
                     'resolve' => fn($root, array $args, array $context) => $context['categoryService']->getById((int)$args['id']),
                 ],
                 'product' => [
-                    'type' => $productType,
+                    'type' => Types::product(),
                     'args' => [
                         'id' => Type::nonNull(Type::string()),
                     ],
