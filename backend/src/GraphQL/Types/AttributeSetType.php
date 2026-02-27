@@ -10,7 +10,6 @@ use GraphQL\Type\Definition\Type;
 
 final class AttributeSetType extends ObjectType {
     public function __construct() {
-        $itemType = new AttributeItemType();
 
         parent::__construct([
             'name' => 'AttributeSet',
@@ -18,7 +17,7 @@ final class AttributeSetType extends ObjectType {
                 'id' => Type::nonNull(Type::string()),
                 'name' => Type::nonNull(Type::string()),
                 'type' => Type::nonNull(Type::string()),
-                'items' => Type::nonNull(Type::listOf(Type::nonNull($itemType))),
+                'items' => Type::nonNull(Type::listOf(Type::nonNull(Types::attributeItem()))),
             ],
             'resolveField' => static function (AbstractAttributeSet $set, array $args, $context, $info){
                 return match ($info->fieldName) {
