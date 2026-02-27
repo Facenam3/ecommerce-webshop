@@ -37,6 +37,14 @@ class QueryType extends ObjectType {
                     ],
                     'resolve' => fn($root, array $args, array $context) => $context['categoryService']->getById((int)$args['id']),
                 ],
+                'product' => [
+                    'type' => $productType,
+                    'args' => [
+                        'id' => Type::nonNull(Type::string()),
+                    ],
+                    'resolve' => fn($root, array $args, array $context) =>
+                    $context['productRepository']->fetchById($args['id']),
+                ]
             ],
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Model\Product\AbstractProduct;
 use App\Model\Product\SimpleProduct;
 use PDO;
 
@@ -48,14 +49,72 @@ class ProductRepository {
 
     public function fetchByCategoryId(int $categoryId): array {
 
-        $sql = "SELECT * FROM products 
-                WHERE category_id = :category_id
-                ORDER BY name ASC
+        $sql = " 
+            SELECT
+                p.id, 
+                p.name, 
+                p.in_stock, 
+                p.description, 
+                p.brand, 
+                p.category_id,
+                c.name AS category
+            FROM products p
+            INNER JOIN categories c ON c.id = p.category_id
+            WHERE p.category_id = :category_id
+            ORDER BY p.name ASC
         ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['category_id' => $categoryId]);
 
-        return $this->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+        $products = [];
+
+        foreach($rows as $row) {
+            $products[] = $this->mapRowToProduct($row);
+        }
+
+        return $products;
+    }
+
+    public function fetchById(string $id) : ? AbstractProduct {
+        $sql = "
+            SELECT
+                p.id, 
+                p.name, 
+                p.in_stock, 
+                p.description, 
+                p.brand, 
+                p.category_id,
+                c.name AS category
+            FROM products p
+            INNER JOIN categories c ON c.id = p.category_id
+            WHERE p.id = :id
+            LIMIT 1
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$row) {
+           return null;
+        }
+
+         return $this->mapRowToProduct($row);
+    }
+
+    public function mapRowToProduct(array $row) : AbstractProduct {
+
+        return new SimpleProduct(
+            id: (string)$row['id'],
+            name: (string)$row['name'],
+            inStock: (bool)$row['in_stock'],
+            description: (string)$row['description'],
+            brand: (string)$row['brand'],
+            categoryId: (int)$row['category_id'],
+            category: (string)$row['category'],
+        );
     }
 }
