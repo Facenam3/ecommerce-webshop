@@ -67,7 +67,7 @@ class ProductRepository {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['category_id' => $categoryId]);
 
-        $rows = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
         $products = [];
 
@@ -105,16 +105,16 @@ class ProductRepository {
          return $this->mapRowToProduct($row);
     }
 
-    public function mapRowToProduct(array $row) : AbstractProduct {
-
-        return new SimpleProduct(
-            id: (string)$row['id'],
-            name: (string)$row['name'],
-            inStock: (bool)$row['in_stock'],
-            description: (string)$row['description'],
-            brand: (string)$row['brand'],
-            categoryId: (int)$row['category_id'],
-            category: (string)$row['category'],
-        );
-    }
+    private function mapRowToProduct(array $row): AbstractProduct
+{
+    return new SimpleProduct(
+        (string)$row['id'],
+        (string)$row['name'],
+        (bool)$row['in_stock'],
+        (string)($row['description'] ?? ''),
+        (string)($row['brand'] ?? ''),
+        (int)$row['category_id'],
+        (string)($row['category'] ?? '')
+    );
+}
 }
