@@ -11,11 +11,13 @@ use App\Repository\ProductRepository;
 use App\Repository\GalleryRepository;
 use App\Repository\PriceRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\OrderRepository;
 
 use App\Service\AttributeService;
 use App\Service\GalleryService;
 use App\Service\PriceService;
 use App\Service\CategoryService;
+use App\Service\OrderService;
 
 use GraphQL\Error\DebugFlag;
 use GraphQL\Error\FormattedError;
@@ -66,12 +68,14 @@ class GraphQL
             $galleryRepository = new GalleryRepository($pdo);
             $priceRepository = new PriceRepository($pdo);
             $categoryRepository = new CategoryRepository($pdo);
+            $orderRepository = new OrderRepository($pdo);
 
             $attributeSetFactory = new AttributeSetFactory();
             $attributeService = new AttributeService($attributeRepository, $attributeSetFactory);
             $galleryService = new GalleryService($galleryRepository);
             $priceService = new PriceService($priceRepository);
             $categoryService = new CategoryService($categoryRepository, $productRepository);
+            $orderService = new OrderService($orderRepository, $pdo);
 
             $schemaFactory = new SchemaFactory();
             $schema = $schemaFactory->create();
@@ -87,6 +91,7 @@ class GraphQL
                     'galleryService' => $galleryService,
                     'priceService' => $priceService,
                     'categoryService' => $categoryService,
+                    'orderService' => $orderService,
                 ],
                 $variableValues
             );
