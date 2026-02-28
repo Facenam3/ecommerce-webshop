@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Model\Order\Order;
 use App\Repository\OrderRepository;
+use DateTimeImmutable;
 
 final class OrderService {
 
@@ -17,11 +18,23 @@ final class OrderService {
     public function createEmpty() : Order {
         $id = bin2hex(random_bytes(16));
 
-        $this->pdo->beginTransaction();
+        $startedTxn = false;
+
+        if(!$this->pdo->beginTransaction()){
+            $this->pdo->beginTransaction();
+            $startedTxn = true;
+        }       
 
         try {
-            $this->orders->insert($id);
-            $this->pdo->commit();
+            $createdAtStr = $this->orders->insert($id);
+
+            if($startedTxn) {
+                $this->pdo->commit();
+            }
+
+            $createdAt = new DateTimeImmutable($createdAtStr);
+
+            return new Order($id, $createdAt);
         } catch (\Throwable $e) {
             $this->pdo->rollBack();
             throw $e;

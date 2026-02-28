@@ -10,13 +10,19 @@ final class OrderRepository {
 
     public function __construct(private PDO $pdo) {}
 
-    public function insert(string $id) : void {
-        
-        $sql = "INSERT INTO orders(id, created_at)
-                VALUES (:id, NOW())
-        ";
+    public function insert(string $id): string
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO orders (id, created_at)
+            VALUES (:id, NOW())
+        ");
+        $stmt->execute([':id' => $id]);
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        $stmt2 = $this->pdo->prepare("SELECT created_at FROM orders WHERE id = :id");
+        $stmt2->execute([':id' => $id]);
+
+        $createdAt = (string)$stmt2->fetchColumn();
+
+        return $createdAt;
     }
 }
