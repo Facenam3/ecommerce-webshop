@@ -63,6 +63,12 @@ class GraphQL
             $database = new Database();
             $pdo = $database->getConnection();
 
+            $dbName = $pdo->query('SELECT DATABASE()')->fetchColumn();
+            $host = $pdo->query('SELECT @@hostname')->fetchColumn();
+            $port = $pdo->query('SELECT @@port')->fetchColumn();
+
+            error_log("GRAPHQL DB CONNECTED: db={$dbName} host={$host} port={$port}");
+
             $productRepository = new ProductRepository($pdo);
             $attributeRepository = new AttributeRepository($pdo);
             $galleryRepository = new GalleryRepository($pdo);
