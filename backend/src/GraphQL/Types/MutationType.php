@@ -20,7 +20,7 @@ final class MutationType extends ObjectType{
                         'input' => Type::nonNull(Types::createOrderInput()),
                     ],
                     'resolve' => static function ($root, array $args, array $context) {
-                        $order = $context['orderService']->createEmpty();
+                        $order = $context['orderService']->createFromInput($args['input']);
                         return ['id' => $order->getId()];
                     },
                 ],
