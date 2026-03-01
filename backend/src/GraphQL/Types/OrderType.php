@@ -12,8 +12,10 @@ final class OrderType extends ObjectType {
 
         parent::__construct([
             'name' => 'Order',
-            'fields' => [
+            'fields' =>  fn() => [
                 'id' => Type::nonNull(Type::id()),
+                'created_at' => Type::nonNull(Type::string()),
+                'items' => Type::nonNull(Type::listOf(Type::nonNull(Types::orderItem()))),
             ],
         ]);
     }

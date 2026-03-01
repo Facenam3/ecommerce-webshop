@@ -82,4 +82,12 @@ final class OrderService
             throw $e;
         }
     }
+
+    public function getById(string $id): ?array {
+        return $this->orders->findById($id);
+    }
+
+    public function list() : array {
+        return $this->orders->findAll();
+    }
 }
