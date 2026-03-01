@@ -14,8 +14,14 @@ final class OrderType extends ObjectType {
             'name' => 'Order',
             'fields' =>  fn() => [
                 'id' => Type::nonNull(Type::id()),
-                'created_at' => Type::nonNull(Type::string()),
-                'items' => Type::nonNull(Type::listOf(Type::nonNull(Types::orderItem()))),
+                'createdAt' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'resolve' => static fn(array $order): string => (string)$order['created_at'],
+                ],
+                'items' => [
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::orderItem()))),
+                    'resolve' => static fn(array $order): array => $order['items'] ?? [],
+                ],
             ],
         ]);
     }

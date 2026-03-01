@@ -14,7 +14,10 @@ final class OrderItemType extends ObjectType {
             'name' => 'OrderItem',
             'fields' => fn() => [
                 'id' => Type::nonNull(Type::id()),
-                'productId' => Type::nonNull(Type::string()),
+                'productId' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'resolve' => static fn($item) => $item['product_id'],
+                ],
                 'quantity' => Type::nonNull(Type::int()),
                 'selectedAttributes' => Type::nonNull(Type::listOf(Type::nonNull(Types::selectedAttribute()))),
             ],

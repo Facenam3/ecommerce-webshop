@@ -41,7 +41,23 @@ class QueryType extends ObjectType {
                     ],
                     'resolve' => fn($root, array $args, array $context) =>
                     $context['productRepository']->fetchById($args['id']),
-                ]
+                ],
+                'order' => [
+                    'type' => Types::order(),
+                    'args' => [
+                        'id' => Type::nonNull(Type::id()),
+                    ],
+                    'resolve' => static function($root, array $args, array $context) {
+                        error_log("order() resolver id=" . ($args['id'] ?? 'MISSING'));
+                        return $context['orderService']->getById((string)$args['id']);
+                    }
+                ],
+                'orders' => [
+                    'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::order()))),
+                    'resolve' => static function($root, array $args, array $context) {
+                        return $context['orderService']->list();
+                    }
+                ],
             ],
         ]);
     }

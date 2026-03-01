@@ -13,8 +13,14 @@ final class SelectedAttributeType extends ObjectType {
         parent::__construct([
             'name' => 'SelectedAttribute',
             'fields' => fn() => [
-                'attributeId' => Type::nonNull(Type::string()),
-                'itemId' => Type::nonNull(Type::string()),
+                'attributeId' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'resolve' => static fn($a) => $a['attribute_id'],
+                ],
+                'itemId' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'resolve' => static fn($a) => $a['item_id'],
+                ],
             ],
         ]);
     }
