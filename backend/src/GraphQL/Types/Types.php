@@ -14,6 +14,8 @@ final class Types {
 
     private static ?OrderType $order = null;
     private static ?MutationType $mutation = null;
+    private static ?OrderItemType $orderItem = null;
+    private static ?SelectedAttributeType $selectedAttribute = null;
 
     private static ?CreateOrderInputType $createOrderInput = null;
     private static ?OrderItemInputType $orderItemInput = null;
@@ -56,5 +58,13 @@ final class Types {
 
     public static function createOrderInput() : CreateOrderInputType {
         return self::$createOrderInput ??= new CreateOrderInputType();
+    }
+
+    public static function orderItem() : OrderItemType {
+        return self::$orderItem ??= new OrderItemType();
+    }
+
+    public static function selectedAttribute() : SelectedAttributeType {
+        return self::$selectedAttribute ??= new SelectedAttributeType();
     }
 }

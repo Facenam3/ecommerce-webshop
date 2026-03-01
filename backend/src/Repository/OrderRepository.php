@@ -10,6 +10,82 @@ final class OrderRepository {
 
     public function __construct(private PDO $pdo) {}
 
+    public function findById(string $orderId) : ?array {
+        $sql = "
+            SELECT id, created_at FROM orders WHERE id = :id
+        "; 
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $orderId]);
+        $order = $stmt->fetch();
+
+        if(!$order) {
+            return null;
+        }
+
+        $sqlItems = "SELECT id, order_id, product_id, quantity
+                    FROM order_items
+                    WHERE order_id = :order_id
+                    ORDER BY id
+                ";
+
+        $stmtItems = $this->pdo->prepare($sqlItems);
+        $stmtItems->execute([':order_id' => $orderId]);
+        $items = $stmtItems->fetchAll();
+        $stmtItems->closeCursor();
+
+        if(!$items) {
+            $order['items'] = [];
+            return $order;
+        }
+
+        $itemsId = array_map(static fn($i) => $i['id'], $items);
+
+        $placeholders = [];
+        $params = [];
+        foreach($itemsId as $idx => $id) {
+            $ph = ":id{$idx}";
+            $placeholders[] = $ph;
+            $params[$ph] = $id;
+        }
+
+        $sqlAttrs = "
+            SELECT id, order_item_id, attribute_id, item_id
+            FROM order_item_atrributes
+            WHERE order_item_id IN (" . implode(',', $placeholders) . ")
+            ORDER BY order_item_id
+        ";
+
+        $stmtAttrs = $this->pdo->prepare($sqlAttrs);
+        $stmtAttrs->execute($params);
+        $attrs = $stmtAttrs->fetchAll();
+        $stmtAttrs->closeCursor();
+
+        $attrsByItem = [];
+        foreach($attrs as $a) {
+            $attrsByItem[$a['order_item_id'][] = $a];
+        }
+
+        foreach($items as &$it){
+            $it['selectedAttributes'] = $attrsByItem[$id['id']] ?? [];
+        }
+        unset($it);
+
+        $order['items'] = $items;
+
+        return $order;
+    } 
+
+    public function findAll(): array {
+        $sql = "
+            SELECT id, created_at FROM orders ORDER BY created_at DESC
+        ";
+        $stmt = $this->pdo->query($sql);
+        $orders = $stmt->fetchAll();
+        $stmt->closeCursor();
+        return $orders;
+    }
+
     public function insert(string $id): string
     {
         $stmt = $this->pdo->prepare("
