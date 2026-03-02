@@ -18,7 +18,7 @@ final class CategoryRepository{
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public function fetchById(int $id) : ?array {
+    public function fetchById(string $id) : ?array {
 
         $sql = "
             SELECT id, name

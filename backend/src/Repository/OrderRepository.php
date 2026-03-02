@@ -18,6 +18,7 @@ final class OrderRepository {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':id' => $orderId]);
         $order = $stmt->fetch();
+        $stmt->closeCursor();
 
         if(!$order) {
             return null;
@@ -51,7 +52,7 @@ final class OrderRepository {
 
         $sqlAttrs = "
             SELECT id, order_item_id, attribute_id, item_id
-            FROM order_item_atrributes
+            FROM order_item_attributes
             WHERE order_item_id IN (" . implode(',', $placeholders) . ")
             ORDER BY order_item_id
         ";
@@ -63,7 +64,8 @@ final class OrderRepository {
 
         $attrsByItem = [];
         foreach($attrs as $a) {
-            $attrsByItem[$a['order_item_id'][] = $a];
+           $oid = $a['order_item_id'];
+           $attrsByItem[$oid][] = $a;
         }
 
         foreach($items as &$it){
@@ -130,7 +132,7 @@ final class OrderRepository {
 
             foreach (($item['selectedAttributes'] ?? []) as $sel) {
                 $stmtAttr->execute([
-                    'id' => $this->uuidV4(),
+                    ':id' => $this->uuidV4(),
                     ':order_item_id' => $orderItemId,
                     ':attribute_id' => $sel['attributeId'],
                     ':item_id' => $sel['itemId'],

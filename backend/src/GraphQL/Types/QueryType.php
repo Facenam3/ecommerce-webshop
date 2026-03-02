@@ -30,9 +30,9 @@ class QueryType extends ObjectType {
                 'category' => [
                     'type' => Types::category(),
                     'args' => [
-                        'id' => Type::nonNull(Type::int()),
+                        'id' => Type::nonNull(Type::id()),
                     ],
-                    'resolve' => fn($root, array $args, array $context) => $context['categoryService']->getById((int)$args['id']),
+                    'resolve' => fn($root, array $args, array $context) => $context['categoryService']->getById((string)$args['id']),
                 ],
                 'product' => [
                     'type' => Types::product(),

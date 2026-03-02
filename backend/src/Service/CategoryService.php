@@ -18,7 +18,7 @@ final class CategoryService {
         return $this->categories->fetchAll();
     }
 
-    public function getById(int $id) : ?array{
+    public function getById(string $id) : ?array{
         return $this->categories->fetchById($id);
     }
 
