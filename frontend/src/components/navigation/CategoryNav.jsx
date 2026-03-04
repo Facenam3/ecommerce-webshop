@@ -3,14 +3,12 @@ import { NavLink } from "react-router-dom";
 import { graphqlRequest } from "../../api/graphqlClient";
 
 const CATEGORIES_QUERY = `
-query {
+  query {
     categories {
-        { 
-            id
-            name
-        }
+      id
+      name
     }
-}
+  }
 `;
 
 export default function CategoryNav() {
