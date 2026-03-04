@@ -5,18 +5,16 @@ import { graphqlRequest } from "../../api/graphqlClient";
 const CATEGORIES_QUERY = `
 query {
     categories {
-    id
-    name
+        { 
+            id
+            name
+        }
     }
 }
 `;
 
 export default function CategoryNav() {
     const [categories, setCategories] = useState([]);
-
-    graphqlRequest(`query { categories { id name } }`)
-    .then(console.log)
-    .catch(console.error);
 
     useEffect(() => {
         async function load() {
@@ -31,7 +29,7 @@ export default function CategoryNav() {
     
     return (
         <nav className="flex gap-5 items-center text-2xl uppercase">
-            {categories.map((cat) => (
+            {categories?.map((cat) => (
                 <NavLink 
                     key={cat.id} 
                     to={`/category/${cat.id}`} 
