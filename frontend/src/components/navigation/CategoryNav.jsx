@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { graphqlRequest } from "../../api/graphqlClient";
+
+import CategoryContext from "../../store/contexts/CategoryContext.jsx";
 
 const CATEGORIES_QUERY = `
   query {
@@ -12,17 +13,10 @@ const CATEGORIES_QUERY = `
 `;
 
 export default function CategoryNav() {
-    const [categories, setCategories] = useState([]);
-
+    const {categories, fetchCategories} = useContext(CategoryContext);
+    console.log(categories);
     useEffect(() => {
-        async function load() {
-            const data = await graphqlRequest(CATEGORIES_QUERY);
-
-            console.log(data);
-            setCategories(data.categories);
-        }
-
-        load();
+       fetchCategories();
     }, []);
     
     return (
