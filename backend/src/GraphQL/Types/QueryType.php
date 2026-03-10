@@ -25,7 +25,7 @@ class QueryType extends ObjectType {
                         $productRepo = $context['productRepository'];
 
                         if(!empty($args['categoryId'])){
-                            return $productRepo->fetchByCategory((int) $args['categoryId']);
+                            return $productRepo->fetchByCategoryId((int) $args['categoryId']);
                         }
 
                         return $productRepo->fetchAll();
