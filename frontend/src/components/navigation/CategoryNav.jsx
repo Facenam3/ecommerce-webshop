@@ -3,21 +3,15 @@ import { NavLink } from "react-router-dom";
 
 import CategoryContext from "../../store/contexts/CategoryContext.jsx";
 
-const CATEGORIES_QUERY = `
-  query {
-    categories {
-      id
-      name
-    }
-  }
-`;
-
 export default function CategoryNav() {
-    const {categories, fetchCategories} = useContext(CategoryContext);
-    console.log(categories);
+    const {categories,loading, errors, fetchCategories} = useContext(CategoryContext);
+
     useEffect(() => {
        fetchCategories();
     }, []);
+
+    if(loading) return <nav>Loading...</nav>
+    if(errors) return <nav>Failed to load categories..</nav>
     
     return (
         <nav className="flex gap-5 items-center text-2xl uppercase">
