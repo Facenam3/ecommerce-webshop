@@ -18,8 +18,16 @@ class QueryType extends ObjectType {
             'fields' => [
                 'products' => [
                     'type' => Type::nonNull(Type::listOf(Type::nonNull(Types::product()))),
+                    'args' => [
+                        'categoryId' => Type::id(),
+                    ],
                     'resolve' => static function ($root, array $args, array $context) {
                         $productRepo = $context['productRepository'];
+
+                        if(!empty($args['categoryId'])){
+                            return $productRepo->fetchByCategory((int) $args['categoryId']);
+                        }
+
                         return $productRepo->fetchAll();
                     }
                 ],
