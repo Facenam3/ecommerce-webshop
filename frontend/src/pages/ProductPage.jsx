@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 
 import CategoryContext from "../store/contexts/CategoryContext.jsx";
 import ProductContext from "../store/contexts/ProductContext.jsx";
+import Card from "../components/UI/Card.jsx";
 
-export default function CategoryPage() {
+export default function ProductPage() {
     const {
         categories, 
         loading: categoriesLoading, 
@@ -51,12 +52,17 @@ export default function CategoryPage() {
     if(errorsProducts) return <div>Failed to fetch products.</div>
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="capitalize text-3xl mt-5">{activeCategory?.name}</h1>
+        <div className="container mx-auto p-10">
+            <h1 className="capitalize text-3xl my-4">{activeCategory?.name}</h1>
 
-            {products?.map((product) => (
-                <div key={product.id}> {product.name} </div>
-            ))}
+            <div className="grid grid-cols-3 gap-2">
+                {products?.map((product) => (
+                    <Card key={product.id} product={product} />
+                ))}
+            </div>
+            
+
+            
         </div>
     );
 }
