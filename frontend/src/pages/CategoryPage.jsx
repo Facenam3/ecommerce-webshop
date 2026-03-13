@@ -1,91 +1,54 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CategoryContext from "../store/contexts/CategoryContext.jsx";
-import * as api from "../api/graphqlClient.js";
-
-const PRODUCTS = `
-    query GetProducts {
-        products {
-            id
-            name
-            brand
-            inStock
-            gallery
-            prices {
-                amount
-                currency {
-                    label
-                    symbol
-                }
-            }
-        }
-    }
-`;
-
-const PRODUCTS_BY_CATEGORY_QUERY = `
-    query GetProductsByCategory($categoryId: ID!) {
-        products(categoryId: $categoryId) {
-            id
-            name
-            brand
-            inStock
-            gallery
-            prices {
-                amount
-                currency {
-                    label
-                    symbol
-                }
-            }
-        }
-    }
-`;
+import ProductContext from "../store/contexts/ProductContext.jsx";
 
 export default function CategoryPage() {
-    const {categories, loading, errors} = useContext(CategoryContext);
-    const [products, setProducts] = useState([]);
+    const {
+        categories, 
+        loading: categoriesLoading, 
+        errors: categoriesErrors,
+    } = useContext(CategoryContext);
+
+    const { 
+        products, 
+        loading: loadingProducts, 
+        errors: errorsProducts, 
+        fetchProducts, 
+        fetchProductsByCategory } = useContext(ProductContext);
+
     const { id } = useParams();
 
     const activeCategory = categories.find(
     category => String(category.id) === String(id)
     );
 
-    useEffect( () => {
-
+    useEffect(() => {
+        if(!activeCategory?.name) return;
         async function fetchData() {
             try {
                 if(activeCategory?.name === "all") {
-                    const res = await api.graphqlRequest(PRODUCTS);
-                    setProducts(res.products);
+                    await fetchProducts();
                     return;
                 }
 
-                if(activeCategory?.name) {
-                    const res = await api.graphqlRequest(
-                        PRODUCTS_BY_CATEGORY_QUERY,
-                        {categoryId: id}
-                    );
-
-                    setProducts(res.products);
-                }
+                    await fetchProductsByCategory(id);
                 
             } catch (error) {
                 console.log(error);
             }
-        }        
+        }
 
         fetchData();
 
-    }, [activeCategory?.name]);
-
-    console.log("id:", id);
-    console.log("activeCategory:", activeCategory);
-    console.log("activeCategory.name:", activeCategory?.name);
-
+    }, [activeCategory?.name, id]);
     
-    if(loading) return <div>Loading...</div>
-    if(errors) return <div>Failed to fetch categories</div>
+    if(categoriesLoading) return <div>Loading...</div>
+    if(categoriesErrors) return <div>Failed to fetch categories</div>
+
+    if(loadingProducts) return <div>Loading...</div>
+    if(errorsProducts) return <div>Failed to fetch products.</div>
 
     return (
         <div className="container mx-auto p-4">

@@ -50,7 +50,7 @@ function categoryReducer(state, action) {
 };
 
 export function CategoryContextProvider({children}){
-    const [category, dispatchCategoryAction] = useReducer(categoryReducer, initialState);
+    const [categoryState, dispatchCategoryAction] = useReducer(categoryReducer, initialState);
 
     const fetchCategories = async() => {
         dispatchCategoryAction({type: "SET_LOADING"});
@@ -79,7 +79,7 @@ export function CategoryContextProvider({children}){
     }
 
     const categoryContext = {
-        ...category,
+        ...categoryState,
         fetchCategories,
     };
 
