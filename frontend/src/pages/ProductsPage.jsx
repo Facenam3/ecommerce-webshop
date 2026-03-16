@@ -57,14 +57,11 @@ export default function ProductsPage() {
 
             <div className="grid grid-cols-3 gap-2">
                 {products?.map((product) => (
-                    <Link to={`/products/${product.id}`}>
+                    <Link key={product.id} to={`/products/${product.id}`}>
                         <Card key={product.id} product={product} />
                     </Link>                    
                 ))}
             </div>
-            
-
-            
         </div>
     );
 }

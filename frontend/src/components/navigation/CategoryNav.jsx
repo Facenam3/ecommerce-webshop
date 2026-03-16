@@ -19,9 +19,12 @@ export default function CategoryNav() {
                 <NavLink 
                     key={cat.id} 
                     to={`/category/${cat.id}`} 
-                    data-testId={({isActive}) => (isActive ? 'active-category-link' : 'category-link')}
                     className={({isActive}) => (isActive ? "underline underline-offset-24 text-green-500" : "")}>
-                    {cat.name}
+                        {({isActive}) => (
+                            <span data-testid={isActive ? 'active-category-link' : 'category-link'}>
+                                {cat.name}
+                            </span>
+                        )}                    
                 </NavLink>
             ))}
         </nav>
