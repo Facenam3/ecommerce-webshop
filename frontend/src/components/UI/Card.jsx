@@ -4,7 +4,10 @@ export default function Card({product}) {
     const imgClasses = "w-full h-[500px] p-1 mb-2 hover:bg-gray-50";
     const priceClasses = "text-gray-900";
     return (
-        <div className={cardClasses}>
+        <div 
+            className={cardClasses}
+            data-testid={`product-${product.name}`}
+        >
             <div className={imgClasses}>
 
                 <img className="w-full h-full object-cover " src={product.gallery[0]} alt={product.name} />
