@@ -1,21 +1,64 @@
-export default function Card({product}) {
+import QuickShopButton from "./buttons/QuickShopButton";
 
-    const cardClasses = "w-5/6 p-3 mb-5 hover:shadow-lg ";
-    const imgClasses = "w-full h-[500px] p-1 mb-2 hover:bg-gray-50";
-    const priceClasses = "text-gray-900";
-    return (
-        <div 
+export default function Card({ product }) {
+    const cardClasses = "group w-5/6 p-3 mb-5 hover:shadow-lg";
+    const imgClasses = "w-full h-[500px] p-1 mb-2 hover:bg-gray-50 relative";
+    const priceClasses = "text-gray-900 font-semibold";
+
+    const outOfStockCard = (
+        <div
             className={cardClasses}
             data-testid={`product-${product.name}`}
         >
             <div className={imgClasses}>
-
-                <img className="w-full h-full object-cover " src={product.gallery[0]} alt={product.name} />
+                <img
+                    className="w-full h-full object-cover"
+                    src={product.gallery[0]}
+                    alt={product.name}
+                />
+                <div className="absolute inset-0 bg-white/50"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <h3 className="uppercase text-gray-500 text-3xl">
+                        out of stock
+                    </h3>
+                </div>
             </div>
+
             <div className="card-body p-1">
                 <h3 className="text-gray-500 mb-1">{product.name}</h3>
-                <p className={priceClasses}>{product.prices[0].currency.symbol}{product.prices[0].amount}</p>
+                <p className="text-gray-400 font-semibold">
+                    {product.prices[0].currency.symbol}
+                    {product.prices[0].amount}
+                </p>
             </div>
         </div>
+    );
+
+    return product.inStock ? (
+        <div
+            className={cardClasses}
+            data-testid={`product-${product.name}`}
+        >
+            <div className={imgClasses}>
+                <img
+                    className="w-full h-full object-cover"
+                    src={product.gallery[0]}
+                    alt={product.name}
+                />
+                <div className="absolute bottom-[-15px] right-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <QuickShopButton />
+                </div>
+            </div>
+
+            <div className="card-body p-1">
+                <h3 className="text-gray-500 mb-1">{product.name}</h3>
+                <p className={priceClasses}>
+                    {product.prices[0].currency.symbol}
+                    {product.prices[0].amount}
+                </p>
+            </div>
+        </div>
+    ) : (
+        outOfStockCard
     );
 }
