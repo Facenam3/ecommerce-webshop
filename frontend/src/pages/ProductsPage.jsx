@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import CategoryContext from "../store/contexts/CategoryContext.jsx";
 import ProductContext from "../store/contexts/ProductContext.jsx";
 import Card from "../components/UI/Card.jsx";
 
-export default function ProductPage() {
+export default function ProductsPage() {
     const {
         categories, 
         loading: categoriesLoading, 
@@ -57,7 +57,9 @@ export default function ProductPage() {
 
             <div className="grid grid-cols-3 gap-2">
                 {products?.map((product) => (
-                    <Card key={product.id} product={product} />
+                    <Link to={`/products/${product.id}`}>
+                        <Card key={product.id} product={product} />
+                    </Link>                    
                 ))}
             </div>
             
