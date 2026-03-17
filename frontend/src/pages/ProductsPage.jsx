@@ -52,7 +52,7 @@ export default function ProductsPage() {
     if(errorsProducts) return <div>Failed to fetch products.</div>
 
     return (
-        <div className="container mx-auto p-10">
+        <div className="container mx-auto p-5">
             <h1 className="capitalize text-3xl my-4">{activeCategory?.name}</h1>
 
             <div className="grid grid-cols-3 gap-2">
