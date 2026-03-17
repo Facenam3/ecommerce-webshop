@@ -39,16 +39,49 @@ const PRODUCTS_BY_CATEGORY_QUERY = `
     }
 `;
 
+const PRODUCT_BY_ID = `
+    query GetProductById($id: String!) {
+        product(id: $id) {
+            id
+            name
+            brand
+            inStock
+            description
+            gallery
+            prices {
+                amount
+                currency {
+                    label
+                    symbol
+                }
+            }
+            attributes {
+                id
+                name
+                type
+                items {
+                    id
+                    displayValue
+                    value
+                }
+            }
+        }
+    }
+`;
+
 const ProductContext = createContext({
     products: [],
+    product: null,
     loading: false,
     errors: null,
     fetchProducts: () => {},
     fetchProductsByCategory: () => {},
+    fetchProductById: () => {},
 });
 
 const initialState = {
     products: [],
+    product: null,
     loading: false,
     errors: null,
 };
@@ -71,6 +104,20 @@ function productReducer(state, action) {
             return {
                 ...state,
                 products: action.payload,
+                loading: false,
+                errors: null,
+            };
+        case "SET_PRODUCT":
+            return {
+                ...state,
+                product: action.payload,
+                loading: false,
+                errors: null,
+            };
+        case "CLEAR_PRODUCT":
+            return {
+                ...state,
+                product: null,
                 loading: false,
                 errors: null,
             };
@@ -134,6 +181,7 @@ export function ProductContextProvider({children}) {
         } catch (error) {
             const msg = 
             error.response?.data?.message || 
+            "Failed to fetch products";
             
             dispatchProductAction({
                 type: "SET_ERROR",
@@ -143,11 +191,40 @@ export function ProductContextProvider({children}) {
             return {success: false};
         }
     }
+
+    const fetchProductById = async(id) => {
+        dispatchProductAction({
+            type: "SET_LOADING",
+        });
+
+        try {
+            const res = await api.graphqlRequest( PRODUCT_BY_ID , {id});
+
+            dispatchProductAction({
+                type: "SET_PRODUCT",
+                payload: res.product,
+            });
+
+            return { success: true };
+        } catch (error) {
+            const msg = 
+            error.response?.data?.message  || 
+            "Failed to fetch product";
+            
+            dispatchProductAction({
+                type: "SET_ERROR",
+                payload: msg,
+            });
+
+            return { success: false };
+        }
+    }
     
     const productContext = {
         ...productState,
         fetchProducts,
         fetchProductsByCategory,
+        fetchProductById,
     };
 
     return (
