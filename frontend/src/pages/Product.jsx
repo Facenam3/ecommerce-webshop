@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import ProductContext from "../store/contexts/ProductContext";
 import ProductCarousel from "../components/UI/product/ProductCarousel";
-import ProductAttribute from "../components/UI/product/ProductAttribute";
+import ProductAttribute from "../components/UI/product/ProductDetails";
 
 export default function Product() {
     const { 
@@ -12,6 +12,7 @@ export default function Product() {
         errors,
         fetchProductById,
     } = useContext(ProductContext);
+    const [selectedAttributes, setSelectedAttributes] = useState({});
 
     const { id } = useParams();
 
@@ -25,7 +26,16 @@ export default function Product() {
         }
 
         fetchProduct();
-    }, []);
+    }, [id]);
+
+    console.log(selectedAttributes);
+
+    const handleAttributeSelect = (attributeName, itemValue) => {
+        setSelectedAttributes((prev) => ({
+            ...prev,
+            [attributeName]: itemValue,
+        }));
+    };
 
     if(loading) return <div>Loading...</div>;
     if(errors) return <div>Failed to fetch product..</div>;
@@ -40,7 +50,11 @@ export default function Product() {
                    />
                 </div>
                 <div className="w-2/5">
-                    <ProductAttribute product={product} />
+                    <ProductAttribute 
+                        product={product}
+                        selectedAttributes={selectedAttributes}
+                        onAttributeSelect={handleAttributeSelect}
+                    />
                 </div>
             </div>
         </div>

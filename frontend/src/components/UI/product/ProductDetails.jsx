@@ -1,9 +1,13 @@
-import AddToCart from "../buttons/AddToCart";
+import AddToCart from "../buttons/AddToCart.jsx";
 import ProductAttributes  from "./ProductAttributeItem.jsx";
 
 import parse from "html-react-parser";
 
-export default function ProductAttribute({product}) {
+export default function ProductDetails({
+    product,
+    selectedAttributes,
+    onAttributeSelect
+}) {
     return(
         <div className="w-full">
             <h2 className="font-semibold text-3xl mb-2">{product?.name}</h2>
@@ -11,17 +15,21 @@ export default function ProductAttribute({product}) {
                     product.attributes?.map((item)=> {
                         return (
                             <ProductAttributes
-                            key={item.id}
-                            attributeName={item.name}
-                            attributeType={item.type}
-                            items={item.items} 
+                                key={item.id}
+                                attributeName={item.name}
+                                attributeType={item.type}
+                                items={item.items} 
+                                selectedValue={selectedAttributes[item.name]}
+                                onSelect={onAttributeSelect}
                             />
                         );
                     })                     
                 }   
                 <h2 className="font-semibold text-xl mb-2 uppercase">Price:</h2>
-                <p className="font-bold text-3xl">{product.prices[0].currency.symbol} {product.prices[0].amount}</p>
-                <AddToCart />
+                <p className="font-bold text-3xl">{product.prices[0].currency.symbol}{Number(product.prices[0].amount).toFixed(2)}</p>
+                <AddToCart 
+                    data-testid="add-to-cart"
+                />
                 {product.description && (
                     <div className="mt-6 text-md leading-7 text-gray-700">
                         {parse(product.description)}
