@@ -16,13 +16,13 @@ export default function ProductCarousel({items = []}) {
 
     const goToPrevious = () => {
         setCurrentIndex((prevIndex) => {
-            prevIndex === 0 ? items.length - 1 : prevIndex - 1
+           return prevIndex === 0 ? items.length - 1 : prevIndex - 1
         });
     };
 
     const goToNext = () => {
         setCurrentIndex((prevIndex) => {
-            prevIndex === items.length - 1 ? 0 : prevIndex + 1
+           return prevIndex === items.length - 1 ? 0 : prevIndex + 1
         });
     };
 
