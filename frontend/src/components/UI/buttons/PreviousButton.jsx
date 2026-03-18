@@ -3,10 +3,10 @@ export default function PreviousButton({...props}) {
         <button 
             {...props}
             type="button"
-            className="w-full h-full object-contain"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white px-3 py-2 shadow cursor-pointer"
             aria-label="Previous Image"
         >
-            <span></span>
+            <i className="fa-solid fa-chevron-right"></i>
         </button>
     );
 }
