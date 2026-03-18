@@ -6,7 +6,9 @@ import parse from "html-react-parser";
 export default function ProductDetails({
     product,
     selectedAttributes,
-    onAttributeSelect
+    onAttributeSelect,
+    isAddToCartDisabled,
+    onAddToCart
 }) {
     return(
         <div className="w-full">
@@ -26,12 +28,20 @@ export default function ProductDetails({
                     })                     
                 }   
                 <h2 className="font-semibold text-xl mb-2 uppercase">Price:</h2>
-                <p className="font-bold text-3xl">{product.prices[0].currency.symbol}{Number(product.prices[0].amount).toFixed(2)}</p>
+                <p className="font-bold text-3xl">
+                    {product.prices[0].currency.symbol}
+                    {Number(product.prices[0].amount).toFixed(2)}
+                    </p>
                 <AddToCart 
+                    disabled={isAddToCartDisabled}
+                    onClick={onAddToCart}
                     data-testid="add-to-cart"
                 />
                 {product.description && (
-                    <div className="mt-6 text-md leading-7 text-gray-700">
+                    <div 
+                        className="mt-6 text-md leading-7 text-gray-700"
+                        data-testid="product-description"
+                    >
                         {parse(product.description)}
                     </div>
                 )}
