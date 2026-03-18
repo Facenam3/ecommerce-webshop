@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ProductContext from "../store/contexts/ProductContext";
-import ProductCarousel from "../components/UI/product/ProductCarousel";
-import ProductAttribute from "../components/UI/product/ProductDetails";
+import ProductCarousel from "../components/UI/product/ProductCarousel.jsx";
+import ProductDetails from "../components/UI/product/ProductDetails.jsx";
+
+import ProductContext from "../store/contexts/ProductContext.jsx";
+import CartContext from "../store/contexts/CartContext.jsx";
 
 export default function Product() {
     const { 
@@ -12,6 +14,11 @@ export default function Product() {
         errors,
         fetchProductById,
     } = useContext(ProductContext);
+    const {
+        items,
+        addItemToCart,
+    } = useContext(CartContext);
+
     const [selectedAttributes, setSelectedAttributes] = useState({});
 
     const { id } = useParams();
@@ -28,7 +35,31 @@ export default function Product() {
         fetchProduct();
     }, [id]);
 
-    console.log(selectedAttributes);
+    const isConfigComplete = 
+        (product?.attributes?.length || 0) === Object.keys(selectedAttributes).length;
+    
+    const isAddToCartDisabled = !isConfigComplete;
+
+    const handleAddToCart = () => {
+        if(!product || isAddToCartDisabled) return;
+
+         const cartItem = {
+            productId: product.id,
+            name: product.name,
+            brand: product.brand,
+            image: product.gallery[0],
+            price: {
+                amount: Number(product.prices[0].amount),
+                symbol: product.prices[0].currency.symbol,
+            },
+            selectedAttributes: {...selectedAttributes},
+            quantity: 1,
+        };
+
+        addItemToCart(cartItem);
+    }
+
+    console.log(items);
 
     const handleAttributeSelect = (attributeName, itemValue) => {
         setSelectedAttributes((prev) => ({
@@ -50,10 +81,12 @@ export default function Product() {
                    />
                 </div>
                 <div className="w-2/5">
-                    <ProductAttribute 
+                    <ProductDetails 
                         product={product}
                         selectedAttributes={selectedAttributes}
                         onAttributeSelect={handleAttributeSelect}
+                        isAddToCartDisabled={isAddToCartDisabled}
+                        onAddToCart={handleAddToCart}
                     />
                 </div>
             </div>
