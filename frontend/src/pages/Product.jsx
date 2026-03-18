@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 
 import ProductContext from "../store/contexts/ProductContext";
-import ProductAttributes from "../components/UI/ProductAttributes";
+import ProductAttributes from "../components/UI/product/ProductAttributes";
 import AddToCart from "../components/UI/buttons/AddToCart";
-import ProductImage from "../components/UI/ProductImage";
+import ProductImage from "../components/UI/product/ProductImage";
+import ProductCarousel from "../components/UI/product/ProductCarousel";
 
 export default function Product() {
     const { 
@@ -38,20 +39,12 @@ export default function Product() {
 
     return (
         <div className="container mx-auto p-6">
-            <h1>{product?.name}</h1>
             <div className="my-5 flex gap-5">
-                <div className="w-1/6 p-5">
-                    {
-                        product.gallery?.map((item) => {
-                            return (
-                                <ProductImage 
-                                    item={item}
-                                />
-                            );
-                        })
-                    }
+                <div className="w-5/6 p-5">
+                   <ProductCarousel
+                        items={product.gallery}
+                   />
                 </div>
-                <div className="w-3/5  bg-red-400 p-5"></div>
                 <div className="w-2/5">
                     <h2 className="font-semibold text-3xl mb-2">{product?.name}</h2>
                     {
