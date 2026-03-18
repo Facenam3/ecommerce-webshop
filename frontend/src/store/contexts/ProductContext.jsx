@@ -142,8 +142,6 @@ export function ProductContextProvider({children}) {
                 payload: res.products,
             });
 
-            console.log(res);
-
             return { success: true };
         } catch (e) {
             const msg = 
@@ -174,8 +172,6 @@ export function ProductContextProvider({children}) {
                 type: "SET_PRODUCTS",
                 payload: res.products,
             });
-
-            console.log(res);
 
             return { success: true};
         } catch (error) {
