@@ -47,20 +47,18 @@ export default function ProductCarousel({items = []}) {
                             }`}
                             aria-label={`Go to image ${index + 1}`}
                         >
-                           <img
-                                src={image}
-                                alt={`Thumbnail ${index + 1}`}
-                                className="w-full h-full object-cover"
+                            <ProductCarouselItem
+                                image={image}
+                                index={index + 1}
                             />
                         </button>
                     ))}
                 </div>
             )}</div>
             <div className="relative w-4/5 h-[600px] bg-white overflow-hidden">
-                <img
-                    src={items[currentIndex]}
-                    alt={`Product image ${currentIndex + 1}`}
-                    className="w-full h-full object-contain"
+                <ProductCarouselItem
+                    image={items[currentIndex]}
+                    index={currentIndex}
                 />
                 {items.length > 1 && (
                     <>
