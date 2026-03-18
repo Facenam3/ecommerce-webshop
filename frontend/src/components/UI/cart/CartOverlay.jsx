@@ -37,7 +37,7 @@ export default function CartOverlay() {
                                     <button>-</button>
                                 </div>
                                 <div>
-                                    <img src={item.gallery} alt={item.name} />
+                                    <img src={item.image} alt={item.name} />
                                 </div>
                             </div>
                         ))}

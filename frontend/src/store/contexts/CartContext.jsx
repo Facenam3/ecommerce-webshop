@@ -25,7 +25,7 @@ function isSameConfig(itemA, itemB) {
 
 function cartReducer(state, action) {
     switch (action.type) {
-        case "SET_ITEMS":
+        case "ADD_ITEM":
         {
             const newItem = action.payload;
 
@@ -48,7 +48,7 @@ function cartReducer(state, action) {
 
             return {
                 ...state,
-                items: {...state.items, newItem},
+                items: [...state.items, newItem],
                 isOpen: true,
             };
         }
