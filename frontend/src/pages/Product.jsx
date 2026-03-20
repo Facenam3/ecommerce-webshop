@@ -52,6 +52,7 @@ export default function Product() {
                 amount: Number(product.prices[0].amount),
                 symbol: product.prices[0].currency.symbol,
             },
+            attributes: product.attributes,
             selectedAttributes: {...selectedAttributes},
             quantity: 1,
         };
