@@ -1,3 +1,5 @@
+import AttributeOption from "../product/AttributeOption.jsx";
+
 export default function ProductAttributes({
     attributeName, 
     items, 
@@ -12,30 +14,14 @@ export default function ProductAttributes({
                 {
                    items?.map((item) => {
                         return (
-                            attributeType === 'swatch' ? (
-                                <button
-                                    key={item.id}
-                                    className={`w-10 h-10 border-2 ${
-                                        selectedValue === item.value
-                                            ? "ring-2 ring-black"
-                                            : ""
-                                    }`}
-                                    style={{ backgroundColor: item.value }}
-                                    onClick={() => onSelect(attributeName, item.value)}
-                                ></button>
-                            ) : (
-                                <button 
-                                    key={item.id}
-                                    className={`px-2 py-3 border-2 w-16 text-center cursor-pointer ${
-                                        selectedValue === item.value
-                                            ? "bg-black text-white"
-                                            : "hover:bg-gray-950 hover:text-white"
-                                    }`}
-                                    onClick={() => onSelect(attributeName, item.value)}
-                                >
-                                    <p>{item.value}</p>
-                                </button>
-                            )                            
+                            <AttributeOption
+                                key={item.id}
+                                attributeName={attributeName}
+                                attributeType={attributeType}
+                                selectedValue={selectedValue}
+                                item={item}
+                                onSelect={onSelect}
+                            />               
                         );                            
                     })
                 }                   
