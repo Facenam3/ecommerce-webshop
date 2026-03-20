@@ -19,7 +19,7 @@ export default function CartOverlay() {
                     <p>Your cart is empty.</p>
                 ) : (
                     <div className="flex flex-col gap-4">
-                        {items.map((item,index) => (
+                        {items.map((item, index) => (
                             <div key={index} className="border-b pb-4 flex">
                                 <div className="flex flex-col gap-4">
                                     <h2 className="text-xl text-gray-600">{item.name}</h2>
@@ -27,15 +27,46 @@ export default function CartOverlay() {
                                         {item.price.symbol}
                                         {Number(item.price.amount).toFixed(2)}
                                     </p>
-                                    <p>
+                                    <div>
+                                        {item.attributes.map((attribute) => {
+                                            const selectedValue =
+                                                item.selectedAttributes[attribute.name];
 
-                                    </p>
+                                            return (
+                                                <div key={attribute.id}>
+                                                    <h4>{attribute.name}</h4>
+
+                                                    <div className="flex gap-2">
+                                                        {attribute.items.map((attrItem) => {
+                                                            const isSelected =
+                                                                attrItem.value === selectedValue;
+
+                                                            return (
+                                                                <button
+                                                                    key={attrItem.id}
+                                                                    className={
+                                                                        isSelected
+                                                                            ? "selected-class"
+                                                                            : "normal-class"
+                                                                    }
+                                                                >
+                                                                    {attrItem.displayValue}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
+
                                 <div className="flex flex-col justify-between">
                                     <button>+</button>
                                     <p>{item.quantity}</p>
                                     <button>-</button>
                                 </div>
+
                                 <div>
                                     <img src={item.image} alt={item.name} />
                                 </div>
