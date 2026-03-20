@@ -9,11 +9,11 @@ export default function AttributeOption({
     const isSelected = selectedValue === item.value;
 
     const swatchSize = 
-        variant === 'cart' ? 'w-5 h-5' : 'w-10 h-10';
+        variant === 'cart' ? 'w-8 h-8' : 'w-10 h-10';
 
     const textSize = 
         variant === 'cart'
-            ? 'px-2 py-1 w-8 text-sm' 
+            ? 'px-2 py-1 w-10 text-sm' 
             : 'px-2 py-3 w-16 text-base';
 
     if(attributeType === 'swatch'){
