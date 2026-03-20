@@ -21,6 +21,7 @@ export default function ProductAttributes({
                                 selectedValue={selectedValue}
                                 item={item}
                                 onSelect={onSelect}
+                                variant='pdp'
                             />               
                         );                            
                     })

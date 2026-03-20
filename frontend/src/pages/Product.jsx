@@ -35,6 +35,8 @@ export default function Product() {
         fetchProduct();
     }, [id]);
 
+    console.log(items);
+
     const isConfigComplete = 
         (product?.attributes?.length || 0) === Object.keys(selectedAttributes).length;
     
@@ -59,8 +61,6 @@ export default function Product() {
 
         addItemToCart(cartItem);
     }
-
-    console.log(items);
 
     const handleAttributeSelect = (attributeName, itemValue) => {
         setSelectedAttributes((prev) => ({
