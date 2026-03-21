@@ -5,6 +5,8 @@ import CategoryContext from "../store/contexts/CategoryContext.jsx";
 import ProductContext from "../store/contexts/ProductContext.jsx";
 import Card from "../components/UI/Card.jsx";
 
+import { toKebabCase } from "../helper/string.js";
+
 export default function ProductsPage() {
     const {
         categories, 
@@ -59,10 +61,13 @@ export default function ProductsPage() {
                 {products?.map((product) => (
                     <Link 
                         key={product.id} 
-                        to={`/products/${product.id}`}
-                        data-testid={`product-${product.name}`}
+                        to={`/products/${product.id}`}                        
                     >
-                        <Card key={product.id} product={product} />
+                        <Card 
+                            key={product.id} 
+                            product={product} 
+                            data-testid={`product-${toKebabCase(product.name)}`}
+                        />
                     </Link>                    
                 ))}
             </div>

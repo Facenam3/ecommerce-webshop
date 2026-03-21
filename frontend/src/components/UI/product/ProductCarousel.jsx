@@ -31,7 +31,10 @@ export default function ProductCarousel({items = []}) {
     };
 
     return (
-        <div className="w-full flex">
+        <div 
+            className="w-full flex"
+            data-testid="product-gallery"
+        >
             <div className="w-1/5">
             {items.length > 1 && (
                 <div className="mt-4 flex gap-3 flex-wrap flex-col">
@@ -55,7 +58,10 @@ export default function ProductCarousel({items = []}) {
                     ))}
                 </div>
             )}</div>
-            <div className="relative w-4/5 h-[600px] bg-white overflow-hidden">
+            <div 
+                className="relative w-4/5 h-[600px] bg-white overflow-hidden"
+                data-testid="product-gallery"    
+            >
                 <ProductCarouselItem
                     image={items[currentIndex]}
                     index={currentIndex}

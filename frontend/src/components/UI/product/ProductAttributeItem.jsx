@@ -1,5 +1,7 @@
 import AttributeOption from "../product/AttributeOption.jsx";
 
+import { toKebabCase } from "../../../helper/string.js";
+
 export default function ProductAttributes({
     attributeName, 
     items, 
@@ -8,7 +10,10 @@ export default function ProductAttributes({
     onSelect
 }) {
     return (
-        <div className="attributes">
+        <div 
+            className="attributes"
+            data-testid={`product-attribute-${toKebabCase(attributeName)}`}    
+        >
             <p className="font-semibold text-xl uppercase mb-3">{attributeName}:</p>
             <div className="flex gap-2 mb-3">
                 {
