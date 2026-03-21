@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import ProductCarousel from "../components/UI/product/ProductCarousel.jsx";
 import ProductDetails from "../components/UI/product/ProductDetails.jsx";
@@ -20,8 +20,10 @@ export default function Product() {
     } = useContext(CartContext);
 
     const [selectedAttributes, setSelectedAttributes] = useState({});
-
     const { id } = useParams();
+
+    const location = useLocation();
+    const categoryName = location.state?.categoryName;
 
     useEffect(() => {
         async function fetchProduct() {
@@ -75,6 +77,7 @@ export default function Product() {
 
     return (
         <div className="container mx-auto p-6">
+            <h1 className="capitalize text-3xl my-4">{categoryName}</h1>
             <div className="my-5 flex gap-5">
                 <div className="w-5/6 p-5">
                    <ProductCarousel
