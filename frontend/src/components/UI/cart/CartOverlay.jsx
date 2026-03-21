@@ -7,10 +7,18 @@ import DecreaseButton from "../buttons/DecreaseButton.jsx";
 import CartImage from "../cart/CartImage.jsx";
 import CartItem from "./CartItem.jsx";
 
+import { getTotalPrice, getTotalQuantity } from "../../../helper/cart.jsx";
+
 export default function CartOverlay() {
     const {items, isOpen, closeCart} = useContext(CartContext);
 
+    const totalPrice = getTotalPrice(items);
+    const totalQuantity = getTotalQuantity(items);
+
     if(!isOpen) return null;
+
+    console.log(totalPrice);
+    console.log(totalQuantity);
 
     return (
         <>
