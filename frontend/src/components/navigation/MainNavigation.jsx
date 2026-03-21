@@ -4,7 +4,7 @@ import CategoryNav from "./CategoryNav";
 
 export default function MainNavigation() {
     return (
-        <header>
+        <header className="fixed top-0 left-0 right-0 z-45 bg-white shadow-sm">
             <div className="flex justify-between items-center container mx-auto p-5">
                 <CategoryNav />
                 <CartButton />
