@@ -61,10 +61,10 @@ export default function ProductsPage() {
                 {products?.map((product) => (
                     <Link 
                         key={product.id} 
-                        to={`/products/${product.id}`}                        
+                        to={`/products/${product.id}`}
+                        state={{ categoryName: activeCategory?.name }}                   
                     >
                         <Card 
-                            key={product.id} 
                             product={product} 
                             data-testid={`product-${toKebabCase(product.name)}`}
                         />
