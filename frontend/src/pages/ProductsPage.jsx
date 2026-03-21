@@ -62,7 +62,10 @@ export default function ProductsPage() {
                     <Link 
                         key={product.id} 
                         to={`/products/${product.id}`}
-                        state={{ categoryName: activeCategory?.name }}                   
+                        state={{ 
+                            categoryName: activeCategory?.name,
+                            categoryId: activeCategory?.id
+                        }}                   
                     >
                         <Card 
                             product={product} 
