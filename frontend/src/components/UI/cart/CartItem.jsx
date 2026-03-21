@@ -7,8 +7,11 @@ export default function CartItem({items}) {
     return (
         <div className="flex flex-col gap-2 items-center">
             {items.map((item,index) => (
-                <div className="flex gap-6">
-                    <div key={index} className="mb-2 flex flex-col items-left">
+                <div 
+                    key={index} 
+                    className="flex justify-between gap-4"
+                >
+                    <div  className="flex flex-col gap-2 flex-1 p-1">
                         <h2 className="text-xl text-gray-600">{item.name}</h2>
                         <p>
                             {item.price.symbol}
