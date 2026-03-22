@@ -35,9 +35,9 @@ export default function ProductCarousel({items = []}) {
             className="w-full flex"
             data-testid="product-gallery"
         >
-            <div className="w-1/5">
+            <div className="w-1/5 h-[600px]">
             {items.length > 1 && (
-                <div className="mt-4 flex gap-3 flex-wrap flex-col">
+                <div className="h-full flex gap-3 flex-col overflow-y-auto pr-2">
                     {items.map((image,index) => (
                         <button 
                             key={image}
@@ -60,7 +60,6 @@ export default function ProductCarousel({items = []}) {
             )}</div>
             <div 
                 className="relative w-4/5 h-[600px] bg-white overflow-hidden"
-                data-testid="product-gallery"    
             >
                 <ProductCarouselItem
                     image={items[currentIndex]}
