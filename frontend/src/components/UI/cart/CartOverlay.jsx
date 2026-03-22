@@ -23,7 +23,7 @@ export default function CartOverlay() {
                 className="fixed top-20 left-0 right-0 bottom-0 bg-black/40 z-40"
                 onClick={closeCart}
             >
-                <div className="fixed top-20 right-10 w-[400px] bg-white shadow-xl z-50 p-4 flex flex-col">
+                <div className="fixed top-20 right-10 w-[440px] bg-white shadow-xl z-50 p-4 flex flex-col">
                     <h2 className="text-xl font-bold mb-4">
                         My Bag, <span className="font-normal">{totalQuantity} items</span>
                     </h2>

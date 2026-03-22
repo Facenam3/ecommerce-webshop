@@ -76,7 +76,7 @@ export default function Product() {
     if(!product) return <div>No product found.</div>;
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 mt-20">
             {categoryName && (
                 <h1 className="capitalize text-3xl my-4">{categoryName}</h1>
             )}
