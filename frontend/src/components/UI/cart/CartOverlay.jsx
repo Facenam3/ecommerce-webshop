@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import CartContext from "../../../store/contexts/CartContext.jsx";
 import CartItem from "./CartItem.jsx";
@@ -11,6 +11,21 @@ export default function CartOverlay() {
 
     const totalPrice = getTotalPrice(items);
     const totalQuantity = getTotalQuantity(items);
+
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if(e.key === "Escape") {
+                closeCart();
+            }
+        };
+
+        document.addEventListener('keydown', handleEsc);
+
+        return () => {
+            document.removeEventListener('keydown', handleEsc);
+        };
+
+    }, [closeCart]);
 
     if(!isOpen) return null;
 

@@ -10,16 +10,12 @@ export default function MainNavigation() {
     const {
         items,
         openCart,
-        closeCart,
     } = useContext(CartContext);
 
     const handleOpenCart = () => {
         openCart();
     }
 
-    const handleCloseCart = () => {
-        closeCart();
-    }
 
     return (
         <header className="fixed top-0 left-0 right-0 z-45 bg-white">
@@ -28,7 +24,6 @@ export default function MainNavigation() {
                 <CartButton />
                 <CartIcon
                     onClick={handleOpenCart}
-                    onClose={handleCloseCart}
                     items={items}
                 />
             </div>            
