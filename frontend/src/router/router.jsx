@@ -10,7 +10,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/category/3" replace />
+                element: <Navigate to="/category/1" replace />
             },
             {
                 path: "category/:id",
