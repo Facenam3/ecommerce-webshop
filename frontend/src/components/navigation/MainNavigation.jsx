@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import CartIcon from "../UI/buttons/CartIcon";
 import CartButton from "../UI/buttons/ShoppingBag";
