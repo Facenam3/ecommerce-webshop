@@ -52,10 +52,34 @@ function cartReducer(state, action) {
                 isOpen: true,
             };
         };
+        case "INCREASE_ITEM": {
+            const target = action.payload;
+
+            const existingCartItemIndex = state.items.findIndex(
+                (item) => isSameConfig(item, target)
+            );
+
+            if(existingCartItemIndex === -1) return state;
+
+            const updatedItems = [...state.items];
+            const existingItem = updatedItems[existingCartItemIndex];
+
+            updatedItems[existingCartItemIndex] = {
+                ...existingItem,
+                quantity: existingItem.quantity + 1,
+            };
+
+            return {
+                ...state,
+                items: updatedItems,
+            };
+        };
         case "DECREASE_ITEM":
             {
+                const target = action.payload;
+
                 const existingCartItemIndex = state.items.findIndex(
-                    (item) => isSameConfig(item, action.payload)
+                    (item) => isSameConfig(item, target)
                 );
 
                 if(!existingCartItemIndex === -1) return state;
