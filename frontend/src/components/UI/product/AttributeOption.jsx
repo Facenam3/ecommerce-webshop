@@ -14,7 +14,7 @@ export default function AttributeOption({
     const textSize = 
         variant === 'cart'
             ? 'px-2 py-1 w-* text-xs' 
-            : 'px-2 py-3 w-16 text-base';
+            : 'px-2 py-3 w-16 text-base cursor-pointer';
 
     if(attributeType === 'swatch'){
         return (
@@ -26,6 +26,7 @@ export default function AttributeOption({
                 }`}
                 style={{ backgroundColor: item.value}}
                 onClick={() => onSelect?.(attributeName, item.value)}
+                disabled={variant === 'cart'}
             >
             </button>
         );
@@ -34,11 +35,14 @@ export default function AttributeOption({
     return (
         <button
             type="button"
-            className={`${textSize} border-2 text-center cursor-pointer ${
+            className={`${textSize} border-2 text-center ${
                 isSelected ? "bg-black text-white"
-                    : "hover:bg-gray-950 hover:text-white"
+                    : variant !== 'cart' 
+                    ? "hover:bg-gray-950 hover:text-white"
+                    : ""
             }`}
             onClick={() => onSelect?.(attributeName, item.value)}
+            disabled={variant === 'cart'}
         >
             {item.value}
         </button>

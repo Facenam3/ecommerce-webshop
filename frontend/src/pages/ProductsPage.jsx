@@ -9,9 +9,7 @@ import { toKebabCase } from "../helper/string.js";
 
 export default function ProductsPage() {
     const {
-        categories, 
-        loading: categoriesLoading, 
-        errors: categoriesErrors,
+        categories,
     } = useContext(CategoryContext);
 
     const { 
@@ -46,11 +44,8 @@ export default function ProductsPage() {
         fetchData();
 
     }, [activeCategory?.name, id]);
-    
-    if(categoriesLoading) return <div>Loading...</div>
-    if(categoriesErrors) return <div>Failed to fetch categories</div>
 
-    if(loadingProducts) return <div>Loading...</div>
+    if(loadingProducts) return <div>Loading products...</div>
     if(errorsProducts) return <div>Failed to fetch products.</div>
 
     return (
