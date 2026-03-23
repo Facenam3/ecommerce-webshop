@@ -51,13 +51,32 @@ function cartReducer(state, action) {
                 items: [...state.items, newItem],
                 isOpen: true,
             };
-        }
-        case "REMOVE_ITEM":
-            return {
-                ...state,
-                items: state.items.filter(
-                    (_, index) => index !== action.payload
-                ),
+        };
+        case "DECREASE_ITEM":
+            {
+                const existingCartItemIndex = state.items.findIndex(
+                    (item) => isSameConfig(item, action.payload)
+                );
+
+                if(!existingCartItemIndex === -1) return state;
+
+                const existingCartItem = state.items[existingCartItemIndex];
+
+                const updatedItems = [...state.items];
+
+                if(existingCartItem.quantity === 1) {
+                    updatedItems.splice(existingCartItemIndex, 1);
+                }  else {
+                    updatedItems[existingCartItemIndex] = {
+                        ...existingCartItem,
+                        quantity: existingCartItem.quantity - 1,
+                    };
+                }
+
+                return {
+                    ...state,
+                    items: updatedItems,
+                };
             };
         case "TOGGLE_CART":
             return {
@@ -90,7 +109,7 @@ export function CartContextProvider({children}) {
         });
     };
 
-    const removeItemFromCart = (index) => {
+    const decreaseItemFromCart = (index) => {
         dispatchCartAction({
             type: "REMOVE_ITEM",
             payload: index,
@@ -118,7 +137,7 @@ export function CartContextProvider({children}) {
     const cartContext = {
         ...cartState,
         addItemToCart,
-        removeItemFromCart,
+        decreaseItemFromCart,
         toggleCart,
         openCart,
         closeCart,
