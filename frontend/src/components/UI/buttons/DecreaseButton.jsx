@@ -1,6 +1,7 @@
-export default function DecreaseButton() {
+export default function DecreaseButton({onClick}) {
     return (
         <button 
+            onClick={onClick}
             type="button"
             className="w-8 h-8 border-2 px-1 py-1"
         >
