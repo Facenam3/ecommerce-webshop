@@ -1,9 +1,37 @@
+import { useContext } from "react";
+
 import AttributeOption from "../product/AttributeOption.jsx";
 import IncreaseButton from "../buttons/IncreaseButton.jsx";
 import DecreaseButton from "../buttons/DecreaseButton.jsx";
 import CartImage from "./CartImage.jsx";
 
+import CartContext from "../../../store/contexts/CartContext.jsx";
+
 export default function CartItem({items}) {
+    const {
+        increaseItemFromCart,
+        decreaseItemFromCart,
+    } = useContext(CartContext);
+
+    const handleIncrease = (index) => {
+        console.log('increase clicked', index);
+        increaseItemFromCart(index);
+    }
+
+    const handleDecrease = (index) => {
+        decreaseItemFromCart(index);
+    }
+
+    console.log("cart items:", items);
+    items.forEach((item, index) => {
+        console.log("item", index, {
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            amount: item.price?.amount,
+        });
+    });
+
     return (
         <div className="flex flex-col gap-2 items-center">
             {items.map((item,index) => (
@@ -43,9 +71,13 @@ export default function CartItem({items}) {
                         
                     </div> 
                     <div className="flex flex-col justify-between items-center py-4">
-                        <IncreaseButton />
+                        <IncreaseButton 
+                            onClick={() => handleIncrease(index)}
+                        />
                         <p>{item.quantity}</p>
-                        <DecreaseButton />
+                        <DecreaseButton
+                            onClick={() => handleDecrease(index)}
+                        />
                     </div>
                     <div className="justify-end">
                          <CartImage

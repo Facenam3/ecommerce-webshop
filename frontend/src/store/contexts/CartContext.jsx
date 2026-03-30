@@ -4,7 +4,8 @@ const CartContext = createContext({
     items: [],
     isOpen: false,
     addItemToCart: () => {},
-    removeItemFromCart: () => {},
+    increaseItemFromCart: () => {},
+    decreaseItemFromCart: () => {},
     toggleCart: () => {},
     openCart: () => {},
     closeCart: () => {},
@@ -53,20 +54,15 @@ function cartReducer(state, action) {
             };
         };
         case "INCREASE_ITEM": {
-            const target = action.payload;
+            const index = action.payload;
 
-            const existingCartItemIndex = state.items.findIndex(
-                (item) => isSameConfig(item, target)
-            );
-
-            if(existingCartItemIndex === -1) return state;
+            if(index < 0 || index >= state.items.length) return state;
 
             const updatedItems = [...state.items];
-            const existingItem = updatedItems[existingCartItemIndex];
 
-            updatedItems[existingCartItemIndex] = {
-                ...existingItem,
-                quantity: existingItem.quantity + 1,
+            updatedItems[index] = {
+                ...updatedItems[index],
+                quantity: updatedItems[index].quantity + 1,
             };
 
             return {
@@ -82,7 +78,7 @@ function cartReducer(state, action) {
                     (item) => isSameConfig(item, target)
                 );
 
-                if(!existingCartItemIndex === -1) return state;
+                if(existingCartItemIndex === -1) return state;
 
                 const existingCartItem = state.items[existingCartItemIndex];
 
@@ -133,9 +129,16 @@ export function CartContextProvider({children}) {
         });
     };
 
+    const increaseItemFromCart = (index) => {
+        dispatchCartAction({
+            type: "INCREASE_ITEM",
+            payload: index,
+        });
+    }
+
     const decreaseItemFromCart = (index) => {
         dispatchCartAction({
-            type: "REMOVE_ITEM",
+            type: "DECREASE_ITEM",
             payload: index,
         });
     };
@@ -162,6 +165,7 @@ export function CartContextProvider({children}) {
         ...cartState,
         addItemToCart,
         decreaseItemFromCart,
+        increaseItemFromCart,
         toggleCart,
         openCart,
         closeCart,
