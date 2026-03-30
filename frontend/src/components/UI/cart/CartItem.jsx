@@ -14,23 +14,12 @@ export default function CartItem({items}) {
     } = useContext(CartContext);
 
     const handleIncrease = (index) => {
-        console.log('increase clicked', index);
         increaseItemFromCart(index);
     }
 
     const handleDecrease = (index) => {
         decreaseItemFromCart(index);
     }
-
-    console.log("cart items:", items);
-    items.forEach((item, index) => {
-        console.log("item", index, {
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-            amount: item.price?.amount,
-        });
-    });
 
     return (
         <div className="flex flex-col gap-2 items-center">

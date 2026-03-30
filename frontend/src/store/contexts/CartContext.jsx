@@ -72,22 +72,17 @@ function cartReducer(state, action) {
         };
         case "DECREASE_ITEM":
             {
-                const target = action.payload;
+                const index = action.payload;
 
-                const existingCartItemIndex = state.items.findIndex(
-                    (item) => isSameConfig(item, target)
-                );
-
-                if(existingCartItemIndex === -1) return state;
-
-                const existingCartItem = state.items[existingCartItemIndex];
+                if(index < 0 || index >= state.items.length) return state;
 
                 const updatedItems = [...state.items];
+                const existingCartItem = updatedItems[index];
 
                 if(existingCartItem.quantity === 1) {
-                    updatedItems.splice(existingCartItemIndex, 1);
+                    updatedItems.splice(index, 1);
                 }  else {
-                    updatedItems[existingCartItemIndex] = {
+                    updatedItems[index] = {
                         ...existingCartItem,
                         quantity: existingCartItem.quantity - 1,
                     };
