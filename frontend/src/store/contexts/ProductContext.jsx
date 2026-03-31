@@ -16,6 +16,16 @@ const PRODUCTS = `
                     symbol
                 }
             }
+            attributes {
+                id
+                name
+                type
+                items {
+                    id
+                    displayValue
+                    value
+                }
+            }
         }
     }
 `;
@@ -33,6 +43,16 @@ const PRODUCTS_BY_CATEGORY_QUERY = `
                 currency {
                     label
                     symbol
+                }
+            }
+            attributes {
+                id
+                name
+                type
+                items {
+                    id
+                    displayValue
+                    value
                 }
             }
         }
