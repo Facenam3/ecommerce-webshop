@@ -15,7 +15,6 @@ export default function Product() {
         fetchProductById,
     } = useContext(ProductContext);
     const {
-        items,
         addItemToCart,
     } = useContext(CartContext);
 
@@ -36,8 +35,6 @@ export default function Product() {
 
         fetchProduct();
     }, [id]);
-
-    console.log(items);
 
     const isConfigComplete = 
         (product?.attributes?.length || 0) === Object.keys(selectedAttributes).length;

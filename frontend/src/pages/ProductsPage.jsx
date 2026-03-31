@@ -45,6 +45,12 @@ export default function ProductsPage() {
 
     }, [activeCategory?.name, id]);
 
+    const handleQuickShopButton = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("QuickShopButton clicked!");
+    };
+
     if(loadingProducts) return <div>Loading products...</div>
     if(errorsProducts) return <div>Failed to fetch products.</div>
 
@@ -65,6 +71,7 @@ export default function ProductsPage() {
                         <Card 
                             product={product} 
                             data-testid={`product-${toKebabCase(product.name)}`}
+                            onQuickShop={handleQuickShopButton}
                         />
                     </Link>                    
                 ))}
