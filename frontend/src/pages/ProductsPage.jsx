@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 
 import CategoryContext from "../store/contexts/CategoryContext.jsx";
 import ProductContext from "../store/contexts/ProductContext.jsx";
+import CartContext from "../store/contexts/CartContext.jsx";
+
 import Card from "../components/UI/Card.jsx";
 
 import { toKebabCase } from "../helper/string.js";
@@ -17,7 +19,12 @@ export default function ProductsPage() {
         loading: loadingProducts, 
         errors: errorsProducts, 
         fetchProducts, 
-        fetchProductsByCategory } = useContext(ProductContext);
+        fetchProductsByCategory 
+    } = useContext(ProductContext);
+
+    const {
+        addItemToCart,
+    } = useContext(CartContext);
 
     const { id } = useParams();
 
@@ -45,10 +52,33 @@ export default function ProductsPage() {
 
     }, [activeCategory?.name, id]);
 
-    const handleQuickShopButton = (e) => {
+    const handleQuickShopButton = (e, product) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log("QuickShopButton clicked!");
+
+        const selectedAttributes = {};
+
+        product.attributes?.forEach((attribute) => {
+            if(attribute.items?.length > 0) {
+                selectedAttributes[attribute.name] = attribute.items[0].value;
+            }
+        });
+
+        const cartItem = {
+            productId: product.id,
+            name: product.name,
+            brand: product.brand,
+            image: product.gallery[0],
+            price: {
+                amount: Number(product.prices[0].amount),
+                symbol: product.prices[0].currency.symbol,
+            },
+            attributes: product.attributes,
+            selectedAttributes,
+            quantity: 1,
+        }
+        addItemToCart(cartItem);
+        console.log(product);
     };
 
     if(loadingProducts) return <div>Loading products...</div>
@@ -71,7 +101,7 @@ export default function ProductsPage() {
                         <Card 
                             product={product} 
                             data-testid={`product-${toKebabCase(product.name)}`}
-                            onQuickShop={handleQuickShopButton}
+                            onQuickShop={(e) => handleQuickShopButton(e, product)}
                         />
                     </Link>                    
                 ))}
