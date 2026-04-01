@@ -49,9 +49,12 @@ export default function CartOverlay() {
                         <CartItem items={items} />
                     </div>                    
                 )}
-                <div className="py-8 px-1 flex justify-between font-bold text-xl">
+                <div 
+                    className="py-8 px-1 flex justify-between font-bold text-xl"
+                    data-testid="cart-total"    
+                >
                     <h2 className="capitalize">total</h2>
-                    <p>$ {Number(totalPrice).toFixed(2)}</p>
+                    <p>{items[0]?.price?.symbol ?? "$"} {Number(totalPrice).toFixed(2)}</p>
                 </div>
                 <PlaceOrder />                
             </div>

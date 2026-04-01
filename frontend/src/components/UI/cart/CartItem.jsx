@@ -7,6 +7,8 @@ import CartImage from "./CartImage.jsx";
 
 import CartContext from "../../../store/contexts/CartContext.jsx";
 
+import {toKebabCase} from "../../../helper/string.js";
+
 export default function CartItem({items}) {
     const {
         increaseItemFromCart,
@@ -39,7 +41,10 @@ export default function CartItem({items}) {
                                 item.selectedAttributes[attribute.name];
                             
                             return (
-                                <div key={attribute.id}>
+                                <div 
+                                    key={attribute.id}
+                                    data-testid={`cart-item-attribute-${toKebabCase(attribute.name.trim())}`}
+                                >
                                     <h4 className="text-md mb-2">{attribute.name}</h4>
 
                                     <div className="flex gap-2 items-center mb-1">
@@ -62,10 +67,14 @@ export default function CartItem({items}) {
                     <div className="flex flex-col justify-between items-center py-4">
                         <IncreaseButton 
                             onClick={() => handleIncrease(index)}
+                            data-testid="cart-item-amount-increase"
                         />
-                        <p>{item.quantity}</p>
+                        <p 
+                            data-testid="cart-item-amount"
+                        >{item.quantity}</p>
                         <DecreaseButton
                             onClick={() => handleDecrease(index)}
+                            data-testid="cart-item-amount-decrease"
                         />
                     </div>
                     <div className="justify-end">

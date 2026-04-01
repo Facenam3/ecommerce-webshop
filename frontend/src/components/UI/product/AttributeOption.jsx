@@ -1,3 +1,5 @@
+import { toKebabCase } from "../../../helper/string";
+
 export default function AttributeOption({
     attributeName,
     attributeType, 
@@ -7,6 +9,18 @@ export default function AttributeOption({
     variant
 }) {
     const isSelected = selectedValue === item.value;
+
+    const kebabAttribute = toKebabCase(attributeName);
+    const kebabValue = toKebabCase(item.value || item.displayValue);
+
+    const baseTestId = `cart-item-attribute-${kebabAttribute}-${kebabValue}`;
+    const testId =
+        variant === "cart"
+            ? isSelected
+                ? `${baseTestId}-selected`
+                : baseTestId
+            : undefined
+    ;
 
     const swatchSize = 
         variant === 'cart' ? 'w-6 h-6 text-xs' : 'w-10 h-10 text-base';
@@ -20,6 +34,7 @@ export default function AttributeOption({
         return (
             <button
                 type="button"
+                data-testid={testId}
                 className={`${swatchSize} border-2 ${
                     isSelected ? "ring-2 ring-black"
                         : ""
@@ -35,6 +50,7 @@ export default function AttributeOption({
     return (
         <button
             type="button"
+            data-testid={testId}
             className={`${textSize} border-2 text-center ${
                 isSelected ? "bg-black text-white"
                     : variant !== 'cart' 
