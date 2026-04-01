@@ -1,14 +1,13 @@
 import { useContext } from "react";
 
-import CartIcon from "../UI/buttons/CartIcon";
-import CartButton from "../UI/buttons/ShoppingBag";
+import ShoppingCartButton from "../UI/buttons/ShoppingBag";
 import CategoryNav from "./CategoryNav";
 
 import CartContext from "../../store/contexts/CartContext.jsx";
+import CartButton from "../UI/buttons/CartButton.jsx";
 
 export default function MainNavigation() {
     const {
-        items,
         openCart,
     } = useContext(CartContext);
 
@@ -21,12 +20,10 @@ export default function MainNavigation() {
         <header className="fixed top-0 left-0 right-0 z-45 bg-white">
             <div className="flex justify-between items-center container mx-auto p-5">
                 <CategoryNav />
-                <CartButton />
-                <CartIcon
-                    data-testid="cart-btn"
-                    onClick={handleOpenCart}
-                    items={items}
-                />
+                <ShoppingCartButton  />
+                <CartButton
+                    onClick={handleOpenCart}    
+                />             
             </div>            
         </header>
     );
