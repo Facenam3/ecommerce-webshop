@@ -16,12 +16,25 @@ const initialState = {
     isOpen: false,
 };
 
+function normalizeKeys(attrs) {
+    return Object.keys(attrs).reduce((acc, key) => {
+        acc[key.toLocaleLowerCase()] = attrs[key];
+        return acc;
+    }, {});
+}
+
 function isSameConfig(itemA, itemB) {
-    return (
-        itemA.productId === itemB.productId &&
-        JSON.stringify(itemA.selectedAttributes) ===
-        JSON.stringify(itemB.selectedAttributes)
-    );
+    if(itemA.productId !== itemB.productId) return false;
+
+    const attrsA = normalizeKeys(itemA.selectedAttributes);
+    const attrsB = normalizeKeys(itemB.selectedAttributes);
+
+    const keysA = Object.keys(attrsA);
+    const keysB = Object.keys(attrsB);
+
+    if(keysA.length !== keysB.length) return false;
+
+    return keysA.every(key => attrsA[key] === attrsB[key]);
 }
 
 function cartReducer(state, action) {
