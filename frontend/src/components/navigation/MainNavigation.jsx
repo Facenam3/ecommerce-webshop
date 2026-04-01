@@ -23,6 +23,7 @@ export default function MainNavigation() {
                 <CategoryNav />
                 <CartButton />
                 <CartIcon
+                    data-testid="cart-btn"
                     onClick={handleOpenCart}
                     items={items}
                 />
