@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import CartContext from "../../../store/contexts/CartContext.jsx";
 
 import { createOrder } from "../../../api/order.js";
 
 export default function PlaceOrder() {
-    const {items, closeCart} = useContext(CartContext);
+    const {items, clearCart, closeCart} = useContext(CartContext);
+    const [ loading, setLoading ] = useState(false);
 
     const isDisabled = items.length === 0;
 
@@ -34,11 +35,14 @@ export default function PlaceOrder() {
         };
 
         try {
+            setLoading(true);
             await createOrder(payload);
-
+            clearCart();
             closeCart();
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -52,7 +56,7 @@ export default function PlaceOrder() {
                 : "bg-green-400 text-white hover:bg-green-500 cursor-pointer"
             }`}
         >
-            place order
+            {loading ? "ordering.." : "place order"}
         </button>
     );
 }
