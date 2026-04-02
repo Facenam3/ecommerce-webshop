@@ -69,7 +69,7 @@ final class OrderRepository {
         }
 
         foreach($items as &$it){
-            $it['selectedAttributes'] = $attrsByItem[$id['id']] ?? [];
+            $it['selectedAttributes'] = $attrsByItem[$it['id']] ?? [];
         }
         unset($it);
 
