@@ -5,10 +5,9 @@ const api = axios.create({
     headers: {'Content-Type': 'application/json'},
 });
 
-export async function graphqlRequest(query, variables = []) {
-    const res = await api.post("", {query, variables});
-
+export async function graphqlRequest(query, variables = {}) {
     try {
+        const res = await api.post("", {query, variables});
 
         if(Array.isArray(res.data?.errors) && res.data.errors.length > 0) {
             throw new Error(res.data.errors.map((e) => e.message).join(" | "));
@@ -25,11 +24,13 @@ export async function graphqlRequest(query, variables = []) {
             const body = err.response?.data;
 
             if(body?.errors && Array.isArray(body.errors)) {
-                throw new Error(body.errors.map((e) => e.message().join(" | ")));
+                throw new Error(body.errors.map((e) => e.message).join(" | "));
             }
 
             throw new Error(
-                `Request failed${status ? ` (${status})` : ""}: ${typeof body === "string" ? body : JSON.stringify(body)}`
+                `Request failed${status ? ` (${status})` : ""}: ${
+                    typeof body === "string" ? body : JSON.stringify(body)
+                }`
             );
         }
         throw err;
