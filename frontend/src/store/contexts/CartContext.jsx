@@ -8,6 +8,7 @@ const CartContext = createContext({
     decreaseItemFromCart: () => {},
     toggleCart: () => {},
     openCart: () => {},
+    clearCart: () => {},
     closeCart: () => {},
 });
 
@@ -116,6 +117,11 @@ function cartReducer(state, action) {
                 ...state,
                 isOpen: true,
             };
+        case "CLEAR_CART":
+            return {
+                ...state,
+                items: [],
+            };
         case "CLOSE_CART":
             return {
                 ...state,
@@ -163,6 +169,12 @@ export function CartContextProvider({children}) {
         });
     };
 
+    const clearCart = () => {
+        dispatchCartAction({
+            type: "CLEAR_CART"
+        });
+    };
+
     const closeCart = () => {
         dispatchCartAction({
             type: "CLOSE_CART",
@@ -176,6 +188,7 @@ export function CartContextProvider({children}) {
         increaseItemFromCart,
         toggleCart,
         openCart,
+        clearCart,
         closeCart,
     };
 
