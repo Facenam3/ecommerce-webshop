@@ -11,12 +11,13 @@ class Database
 
     public function __construct()
     {
-        $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
-        $db   = $_ENV['DB_NAME'] ?? '';
-        $user = $_ENV['DB_USER'] ?? '';
-        $pass = $_ENV['DB_PASS'] ?? '';
+        $host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST') ?: ($_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: '127.0.0.1');
+        $port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT') ?: ($_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: '3306');
+        $db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE') ?: ($_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: '');
+        $user = $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER') ?: ($_ENV['DB_USER'] ?? getenv('DB_USER') ?: '');
+        $pass = $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD') ?: ($_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: '');
 
-        $dsn = "mysql:host={$host};dbname={$db};charset=utf8mb4";
+        $dsn = "mysql:host={$host};port={$port};dbname={$db};charset=utf8mb4";
 
         try {
             $this->connection = new PDO(
