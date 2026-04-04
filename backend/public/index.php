@@ -3,6 +3,7 @@
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
     'http://localhost:5173',
+    'https://ecommerce-webshop-production.up.railway.app/'
 ];
 
 if(in_array($origin, $allowedOrigins, true)) {
@@ -24,8 +25,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+$envPath = dirname(__DIR__);
+
+if(file_exists($envPath, '/.env')) {
+    $dotenv = Dotenv::createImmutable($envPath);
+    $dotenv->load();
+}
+
 header('Content-Type: application/json; charset=UTF-8');
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
