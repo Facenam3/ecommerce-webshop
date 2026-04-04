@@ -1,14 +1,7 @@
 import { createContext, useReducer } from "react";
 import * as api from "../../api/graphqlClient.js";
 
-const CATEGORIES_QUERY = `
-  query {
-    categories {
-      id
-      name
-    }
-  }
-`;
+import { CATEGORIES_QUERY } from "../../api/queires.js";
 
 const CategoryContext = createContext({
     categories: [],
