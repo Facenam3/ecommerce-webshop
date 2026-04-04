@@ -28,15 +28,15 @@ export default function ProductsPage() {
 
     const { id } = useParams();
 
-    const activeCategory = categories.find(
-    category => String(category.id) === String(id)
+    const activeCategory = categories?.find(
+    (category) => String(category.id) === String(id)
     );
 
     useEffect(() => {
-        if(!activeCategory?.name) return;
+        if(!id) return;
         async function fetchData() {
             try {
-                if(activeCategory?.name === "all") {
+                if(String(id) === "3") {
                     await fetchProducts();
                     return;
                 }
@@ -44,13 +44,13 @@ export default function ProductsPage() {
                     await fetchProductsByCategory(id);
                 
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
 
         fetchData();
 
-    }, [activeCategory?.name, id]);
+    }, [ id ]);
 
     const handleQuickShopButton = (e, product) => {
         e.preventDefault();
@@ -78,15 +78,29 @@ export default function ProductsPage() {
             quantity: 1,
         }
         addItemToCart(cartItem);
-        console.log(product);
     };
 
+    if(!id) return (
+        <div className="text-center mt-30">
+            <h2 className="text-2xl font-semibold">Category not found</h2>
+            <p className="text-gray-500 mt-2">Try selecting another category.</p>
+        </div>
+    );
     if(loadingProducts) return <div>Loading products...</div>
-    if(errorsProducts) return <div>Failed to fetch products.</div>
+    if(errorsProducts) return <div>Failed to fetch products...</div>
+
+    if(!products || products.length === 0) {
+        return (
+            <div className="text-center mt-30">
+                <h2 className="text-2xl font-semibold">No products found for this category.</h2>
+                <p className="text-gray-500 mt-2">Try selecting another category.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-5 mt-20">
-            <h1 className="capitalize text-3xl my-4">{activeCategory?.name}</h1>
+            <h1 className="capitalize text-3xl my-4">{activeCategory?.name ?? "Category"}</h1>
 
             <div className="grid grid-cols-3 gap-2">
                 {products?.map((product) => (
