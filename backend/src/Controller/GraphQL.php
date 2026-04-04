@@ -108,15 +108,20 @@ class GraphQL
                 ? $result->toArray(DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE)
                 : $result->toArray();
         } catch (Throwable $e) {
-            $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+            // $debug = filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
 
-            $error = FormattedError::createFromException(
-                $e,
-                $debug ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE
-            );
+            // $error = FormattedError::createFromException(
+            //     $e,
+            //     $debug ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE
+            // );
 
             $output = [
-                'errors' => [$error],
+                'errors' => [
+                    [
+                        'message' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                    ]
+                ],
             ];
         }
 
