@@ -24,17 +24,17 @@ final class Types {
     public static function product() : ProductType {
         return self::$product ??= new ProductType();
     }
-    public static function category() : categoryType {
-        return self::$category ??= new categoryType();
+    public static function category() : CategoryType {
+        return self::$category ??= new CategoryType();
     }
-    public static function price() : priceType {
-        return self::$price ??= new priceType();
+    public static function price() : PriceType {
+        return self::$price ??= new PriceType();
     }
-    public static function currency() : currencyType {
-        return self::$currency ??= new currencyType();
+    public static function currency() : CurrencyType {
+        return self::$currency ??= new CurrencyType();
     }
-    public static function attributeSet() : attributeSetType {
-        return self::$attributeSet ??= new attributeSetType();
+    public static function attributeSet() : AttributeSetType {
+        return self::$attributeSet ??= new AttributeSetType();
     }
     public static function attributeItem() : AttributeItemType {
         return self::$attributeItem ??= new AttributeItemType();
