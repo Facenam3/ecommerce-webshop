@@ -8,7 +8,7 @@ export default function PlaceOrder() {
     const {items, clearCart, closeCart} = useContext(CartContext);
     const [ loading, setLoading ] = useState(false);
 
-    const isDisabled = items.length === 0;
+    const isDisabled = items.length === 0 || loading;
 
     const handlePlaceOrder = async () => {
         if(isDisabled) return;
@@ -52,11 +52,14 @@ export default function PlaceOrder() {
             disabled={isDisabled}
             type="button"
             className={`w-full px-5 py-6 uppercase text-xl ${
-                isDisabled ? 'bg-gray-500 text-white cursor-not-allowed opacity-60'
-                : "bg-green-400 text-white hover:bg-green-500 cursor-pointer"
+                isDisabled
+                    ? 'bg-gray-500 text-white cursor-not-allowed opacity-60'
+                    : loading
+                    ? 'bg-green-300 text-white cursor-not-allowed'
+                    : 'bg-green-400 text-white hover:bg-green-500 cursor-pointer'
             }`}
         >
-            {loading ? "ordering.." : "place order"}
+            {loading ? "placing order...." : "place order"}
         </button>
     );
 }
