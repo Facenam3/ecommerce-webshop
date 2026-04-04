@@ -6,17 +6,21 @@ This project is a full-stack e-commerce application built as part of the Scandiw
 It includes a PHP + GraphQL backend and a React frontend, implementing a complete product browsing and order creation flow.
 
 🚀 Features
+
 🧾 Product Listing (Category Page)
+
 Displays products by category
 Supports dynamic routing (/category/:id)
 Handles direct URL access (no crashes on refresh)
 
 📦 Product Details Page (PDP)
+
 Displays full product information
 Supports attribute selection (size, color, etc.)
 Validates selection before adding to cart
 
 🛒 Cart Overlay
+
 Add/remove products
 Increase/decrease quantity
 Merge identical products (same attributes)
@@ -24,11 +28,13 @@ Display selected and available attributes
 Real-time total calculation
 
 ⚙️ Attribute System
+
 Supports multiple attribute types (text & swatch)
 Fully dynamic based on backend data
 Selected attributes persisted in cart state
 
 📊 Order Creation
+
 Sends order via GraphQL mutation
 Stores:
 products
@@ -38,6 +44,7 @@ Transaction-safe database insert
 Clears cart after successful order
 
 🧠 Tech Stack
+
 Frontend
 React (Vite)
 Context API + Reducer (state management)
@@ -51,7 +58,9 @@ FastRoute (routing)
 PDO (database access)
 
 ▶️ Getting Started
+
 🔧 Backend Setup
+
 Navigate to backend folder
 Install dependencies:
 composer install
@@ -64,6 +73,7 @@ Start server:
 php -S localhost:8000 -t public
 
 💻 Frontend Setup
+
 Navigate to frontend folder
 Install dependencies:
 npm install
