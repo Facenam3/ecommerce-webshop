@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
     'http://localhost:5173',
-    'https://ecommerce-webshop-production.up.railway.app/'
 ];
 
 if(in_array($origin, $allowedOrigins, true)) {
@@ -41,7 +40,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->post('/graphql', [App\Controller\GraphQL::class, 'handle']);
 });
 
-$url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = rtrim($uri, '/') ?: '/';
 
 $routeInfo = $dispatcher->dispatch(
     $_SERVER['REQUEST_METHOD'],
@@ -54,7 +54,6 @@ switch ($routeInfo[0]) {
         echo json_encode(["error" => "Not Found"]);
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        $allowedMethods = $routeInfo[1];
         http_response_code(405);
         echo json_encode(['error' => "Method not allowed"]);
         break;
