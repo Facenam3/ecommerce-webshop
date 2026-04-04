@@ -1,93 +1,11 @@
 import { createContext, useReducer } from "react";
 import * as api from "../../api/graphqlClient.js";
 
-const PRODUCTS = `
-    query GetProducts {
-        products {
-            id
-            name
-            brand
-            inStock
-            gallery
-            prices {
-                amount
-                currency {
-                    label
-                    symbol
-                }
-            }
-            attributes {
-                id
-                name
-                type
-                items {
-                    id
-                    displayValue
-                    value
-                }
-            }
-        }
-    }
-`;
-
-const PRODUCTS_BY_CATEGORY_QUERY = `
-    query GetProductsByCategory($categoryId: ID!) {
-        products(categoryId: $categoryId) {
-            id
-            name
-            brand
-            inStock
-            gallery
-            prices {
-                amount
-                currency {
-                    label
-                    symbol
-                }
-            }
-            attributes {
-                id
-                name
-                type
-                items {
-                    id
-                    displayValue
-                    value
-                }
-            }
-        }
-    }
-`;
-
-const PRODUCT_BY_ID = `
-    query GetProductById($id: String!) {
-        product(id: $id) {
-            id
-            name
-            brand
-            inStock
-            description
-            gallery
-            prices {
-                amount
-                currency {
-                    label
-                    symbol
-                }
-            }
-            attributes {
-                id
-                name
-                type
-                items {
-                    id
-                    displayValue
-                    value
-                }
-            }
-        }
-    }
-`;
+import { 
+    PRODUCTS, 
+    PRODUCTS_BY_CATEGORY_QUERY,
+    PRODUCT_BY_ID
+} from "../../api/queires.js";
 
 const ProductContext = createContext({
     products: [],
