@@ -30,7 +30,7 @@ use Dotenv\Dotenv;
 
 $envPath = dirname(__DIR__);
 
-if(file_exists($envPath, '/.env')) {
+if(file_exists($envPath . '/.env')) {
     $dotenv = Dotenv::createImmutable($envPath);
     $dotenv->load();
 }
