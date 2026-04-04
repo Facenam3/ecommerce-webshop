@@ -1,4 +1,5 @@
 🛒 Scandiweb Full-Stack Test Project
+
 📌 Overview
 
 This project is a full-stack e-commerce application built as part of the Scandiweb Junior Developer test assignment.
