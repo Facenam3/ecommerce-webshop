@@ -41,9 +41,11 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->post('/graphql', [App\Controller\GraphQL::class, 'handle']);
 });
 
+$url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
 $routeInfo = $dispatcher->dispatch(
     $_SERVER['REQUEST_METHOD'],
-    $_SERVER['REQUEST_URI']
+    $uri
 );
 
 switch ($routeInfo[0]) {
