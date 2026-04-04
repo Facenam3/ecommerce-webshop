@@ -29,31 +29,27 @@ Backend:
 🔧 Backend Setup
 
 Navigate to backend folder
+
 Install dependencies:
-composer install
-Configure .env file:
-DB_HOST=localhost
-DB_NAME=scandiweb
-DB_USER=root
-DB_PASS=
-Start server:
-php -S localhost:8000 -t public
+- composer install
+- Configure .env file:
+- DB_HOST=localhost
+- DB_NAME=scandiweb
+- DB_USER=root
+- DB_PASS=
+- Start server:
+- php -S localhost:8000 -t public
 
 💻 Frontend Setup
 
 Navigate to frontend folder
 
 Install dependencies:
-
-npm install
-
-Configure environment:
-
-VITE_API_URL=http://localhost:8000/graphql
-
-Start development server:
-
-npm run dev
+- npm install
+- Configure environment:
+- VITE_API_URL=http://localhost:8000/graphql
+- Start development server:
+- npm run dev
 
 🧩 Notes
 The project does not persist cart data (as per requirements)
