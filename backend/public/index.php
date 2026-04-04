@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
     'http://localhost:5173',
+    'https://facenam3.github.io/ecommerce-webshop/'
 ];
 
 if(in_array($origin, $allowedOrigins, true)) {
