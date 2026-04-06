@@ -1,10 +1,10 @@
-import { createHashRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "../pages/layout/Root.jsx";
 import ProductsPage from "../pages/ProductsPage.jsx";
 import Product from "../pages/Product.jsx";
 import ErrorPage from "../pages/error/Errorpage.jsx";
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
     {
         path: "/",
         element: <RootLayout />,
@@ -12,10 +12,10 @@ export const router = createHashRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/category/1" replace />
+                element: <Navigate to="/all" replace />
             },
             {
-                path: "category/:id",
+                path: ":categoryName",
                 element: <ProductsPage />,
             },
             {

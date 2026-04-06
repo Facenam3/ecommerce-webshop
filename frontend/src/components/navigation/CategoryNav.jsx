@@ -1,25 +1,16 @@
 import { useEffect, useContext } from "react";
-import { NavLink,useLocation, useParams } from "react-router-dom";
-
+import { NavLink,useLocation } from "react-router-dom";
 import CategoryContext from "../../store/contexts/CategoryContext.jsx";
+
+import { toCategoryPath } from "../../helper/string.js";
 
 export default function CategoryNav() {
     const {categories,loading, errors, fetchCategories} = useContext(CategoryContext);
+    const location = useLocation();
 
     useEffect(() => {
        fetchCategories();
     }, []);
-
-    const location = useLocation();
-    const params = useParams();
-
-    let activeCategoryId = null;
-
-    if(location.pathname.startsWith("/category/")) {
-        activeCategoryId = params.id;
-    } else if (location.pathname.startsWith("/products/")) {
-        activeCategoryId = location.state?.categoryId;
-    }
 
     if(loading) return <nav>Loading...</nav>
     if(errors) return <nav>Failed to load categories..</nav>
@@ -27,7 +18,8 @@ export default function CategoryNav() {
     return (
         <nav className="flex gap-5 items-center text-2xl uppercase">
             {categories?.map((cat) => {
-                const isCategoryActive = String(cat.id) === String(activeCategoryId);
+                const path = toCategoryPath(cat.name);
+                const isCategoryActive = location.pathname === path;
 
                 return (
                      <NavLink

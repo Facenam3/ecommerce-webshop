@@ -6,7 +6,6 @@ import ProductContext from "../store/contexts/ProductContext.jsx";
 import CartContext from "../store/contexts/CartContext.jsx";
 
 import Card from "../components/UI/Card.jsx";
-
 import { toKebabCase } from "../helper/string.js";
 
 export default function ProductsPage() {
@@ -26,22 +25,23 @@ export default function ProductsPage() {
         addItemToCart,
     } = useContext(CartContext);
 
-    const { id } = useParams();
+    const { categoryName } = useParams();
 
     const activeCategory = categories?.find(
-    (category) => String(category.id) === String(id)
+    (category) => category.name.toLowerCase() === categoryName.toLowerCase()
     );
 
     useEffect(() => {
-        if(!id) return;
+        if(!categoryName || !activeCategory) return;
+
         async function fetchData() {
             try {
-                if(String(id) === "3") {
+                if(activeCategory.name.toLowerCase() === 'all') {
                     await fetchProducts();
                     return;
                 }
 
-                    await fetchProductsByCategory(id);
+                    await fetchProductsByCategory(activeCategory.id);
                 
             } catch (error) {
                 console.error(error);
@@ -50,7 +50,7 @@ export default function ProductsPage() {
 
         fetchData();
 
-    }, [ id ]);
+    }, [ categoryName, activeCategory ]);
 
     const handleQuickShopButton = (e, product) => {
         e.preventDefault();
@@ -80,7 +80,7 @@ export default function ProductsPage() {
         addItemToCart(cartItem);
     };
 
-    if(!id) return (
+    if(!categoryName) return (
         <div className="text-center mt-30">
             <h2 className="text-2xl font-semibold">Category not found</h2>
             <p className="text-gray-500 mt-2">Try selecting another category.</p>

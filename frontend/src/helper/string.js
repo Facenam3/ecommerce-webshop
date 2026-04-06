@@ -4,3 +4,7 @@ export function toKebabCase(str) {
         .replace(/\s+/g, "-")
         .replace(/[^\w-]+/g, "");
 }
+
+export function toCategoryPath(name) {
+    return `/${name.toLowerCase()}`;
+}
