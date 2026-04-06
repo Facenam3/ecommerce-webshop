@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
     'http://localhost:5173',
-    'https://ecommerce-webshop-three.vercel.app'
+    'https://ecommerce-webshop-three.vercel.app/'
 ];
 
 if(in_array($origin, $allowedOrigins, true)) {
