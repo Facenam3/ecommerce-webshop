@@ -68,9 +68,17 @@ export default function Product() {
         }));
     };
 
+    console.log(product);
+
     if(loading) return <div>Loading...</div>;
     if(errors) return <div>Failed to fetch product..</div>;
-    if(!product) return <div>No product found.</div>;
+    if(!product) {
+        return (
+            <div className="text-center mt-30">
+                <h2 className="text-2xl font-semibold">There is no product with this name.</h2>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-6 mt-20">
