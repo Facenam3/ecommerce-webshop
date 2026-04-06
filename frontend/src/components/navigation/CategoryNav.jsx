@@ -24,7 +24,7 @@ export default function CategoryNav() {
                 return (
                      <NavLink
                         key={cat.id}
-                        to={`/category/${cat.id}`}
+                        to={path}
                         className={isCategoryActive ? "underline underline-offset-24 text-green-500" : ""}
                     >
                         <span data-testid={isCategoryActive ? "active-category-link" : "category-link"}>
