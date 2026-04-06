@@ -6,5 +6,5 @@ export function toKebabCase(str) {
 }
 
 export function toCategoryPath(name) {
-    return name.trim().toLowerCase().replace(/\s+/g, "-");
+    return `/${name.trim().toLowerCase().replace(/\s+/g, "-")}`;
 }

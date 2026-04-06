@@ -13,7 +13,6 @@ export default function CartButton({ onClick, ...props}) {
     return (
         <button 
             className="relative p-2 cursor-pointer"
-            data-testid="cart-btn"
             onClick={onClick}
             {...props}
         >
