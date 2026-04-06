@@ -5,23 +5,28 @@ import Product from "../pages/Product.jsx";
 import ErrorPage from "../pages/error/Errorpage.jsx";
 
 export const router = createBrowserRouter([
+    [
+        {
+            path: "/",
+            element: <RootLayout />,
+            errorElement: <ErrorPage />,
+            children: [
+                {
+                    index: true,
+                    element: <Navigate to="/all" replace />
+                },
+                {
+                    path: ":categoryName",
+                    element: <ProductsPage />,
+                },
+                {
+                    path:"product/:id",
+                    element: <Product />,
+                },
+            ],
+        },
+    ],
     {
-        path: "/",
-        element: <RootLayout />,
-        errorElement: <ErrorPage />,
-        children: [
-            {
-                index: true,
-                element: <Navigate to="/all" replace />
-            },
-            {
-                path: ":categoryName",
-                element: <ProductsPage />,
-            },
-            {
-                path:"products/:id",
-                element: <Product />,
-            }
-        ],
+        basename: "/ecommerce-webshop",
     }
 ]);

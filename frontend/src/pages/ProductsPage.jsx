@@ -106,7 +106,7 @@ export default function ProductsPage() {
                 {products?.map((product) => (
                     <Link 
                         key={product.id} 
-                        to={`/products/${product.id}`}
+                        to={`/product/${product.id}`}
                         state={{ 
                             categoryName: activeCategory?.name,
                             categoryId: activeCategory?.id
