@@ -4,11 +4,6 @@ import ProductsPage from "../pages/ProductsPage.jsx";
 import Product from "../pages/Product.jsx";
 import ErrorPage from "../pages/error/Errorpage.jsx";
 
-const basename =
-  import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
-    ? "/ecommerce-webshop"
-    : undefined;
-
 export const router = createBrowserRouter(
   [
     {
@@ -31,5 +26,4 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  basename ? { basename } : undefined 
 );

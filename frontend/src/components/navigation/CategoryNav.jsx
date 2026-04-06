@@ -26,8 +26,8 @@ export default function CategoryNav() {
                      <NavLink
                         key={cat.id}
                         to={path}
-                        className={isCategoryActive ? "underline underline-offset-24 text-green-500" : ""}
                         data-testid={isCategoryActive ? "active-category-link" : "category-link"}
+                        className={isCategoryActive ? "underline underline-offset-24 text-green-500" : ""}                        
                     >
                         {cat.name}                        
                     </NavLink>
