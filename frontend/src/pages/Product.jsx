@@ -33,11 +33,21 @@ export default function Product() {
             }
         }
 
-        fetchProduct();
+        if(id) {
+            fetchProduct();
+        }
+       
     }, [id]);
 
-    const isConfigComplete = 
-        (product?.attributes?.length || 0) === Object.keys(selectedAttributes).length;
+    useEffect(() => {
+        setSelectedAttributes({});
+    }, [product?.id])
+
+    const requiredAttributes = product?.attributes ?? [];
+
+    const isConfigComplete = requiredAttributes.every(
+        (attribute) => selectedAttributes[attribute.name]
+    );
     
     const isAddToCartDisabled = !isConfigComplete;
 
@@ -48,12 +58,12 @@ export default function Product() {
             productId: product.id,
             name: product.name,
             brand: product.brand,
-            image: product.gallery[0],
+            image: product.gallery[0] ?? "",
             price: {
-                amount: Number(product.prices[0].amount),
-                symbol: product.prices[0].currency.symbol,
+                amount: Number(product.prices[0].amount ?? 0),
+                symbol: product.prices[0].currency.symbol ?? $,
             },
-            attributes: product.attributes,
+            attributes: product.attributes ?? [],
             selectedAttributes: {...selectedAttributes},
             quantity: 1,
         };
@@ -67,8 +77,6 @@ export default function Product() {
             [attributeName]: itemValue,
         }));
     };
-
-    console.log(product);
 
     if(loading) return <div>Loading...</div>;
     if(errors) return <div>Failed to fetch product..</div>;
