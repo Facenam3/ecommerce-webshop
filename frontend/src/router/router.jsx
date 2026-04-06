@@ -26,7 +26,4 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  {
-    basename: "/ecommerce-webshop",
-  }
 );

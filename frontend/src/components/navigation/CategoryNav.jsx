@@ -27,10 +27,9 @@ export default function CategoryNav() {
                         key={cat.id}
                         to={path}
                         className={isCategoryActive ? "underline underline-offset-24 text-green-500" : ""}
+                        data-testid={isCategoryActive ? "active-category-link" : "category-link"}
                     >
-                        <span data-testid={isCategoryActive ? "active-category-link" : "category-link"}>
-                            {cat.name}
-                        </span>
+                        {cat.name}                        
                     </NavLink>
                 )               
             })}
