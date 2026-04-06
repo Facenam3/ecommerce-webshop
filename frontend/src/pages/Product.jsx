@@ -39,9 +39,12 @@ export default function Product() {
        
     }, [id]);
 
+    const productId = product?.id ?? null;
+
     useEffect(() => {
+        if(!productId) return;
         setSelectedAttributes({});
-    }, [product?.id])
+    }, [productId])
 
     const requiredAttributes = product?.attributes ?? [];
 
