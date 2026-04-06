@@ -3,21 +3,22 @@ import { NavLink,useLocation } from "react-router-dom";
 import CategoryContext from "../../store/contexts/CategoryContext.jsx";
 
 import { toCategoryPath } from "../../helper/string.js";
+import { fallbackCategories } from "../../helper/categories.js";
 
 export default function CategoryNav() {
-    const {categories,loading, errors, fetchCategories} = useContext(CategoryContext);
+    const {categories, fetchCategories} = useContext(CategoryContext);
     const location = useLocation();
 
     useEffect(() => {
        fetchCategories();
     }, []);
 
-    if(loading) return <nav>Loading...</nav>
-    if(errors) return <nav>Failed to load categories..</nav>
+    const navCategories = 
+        categories && categories.length > 0 ? categories : fallbackCategories;
     
     return (
         <nav className="flex gap-5 items-center text-2xl uppercase">
-            {categories?.map((cat) => {
+            {navCategories?.map((cat) => {
                 const path = toCategoryPath(cat.name);
                 const isCategoryActive = location.pathname === path;
 
