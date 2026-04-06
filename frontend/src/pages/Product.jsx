@@ -61,7 +61,7 @@ export default function Product() {
             image: product.gallery[0] ?? "",
             price: {
                 amount: Number(product.prices[0].amount ?? 0),
-                symbol: product.prices[0].currency.symbol ?? $,
+                symbol: product.prices[0].currency.symbol ?? "$",
             },
             attributes: product.attributes ?? [],
             selectedAttributes: {...selectedAttributes},
