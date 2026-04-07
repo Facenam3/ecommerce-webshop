@@ -41,7 +41,10 @@ export default function CartOverlay() {
                 onClick={(e) => e.stopPropagation()}
                 >
                 <h2 className="text-xl font-bold mb-4">
-                    My Bag, <span className="font-normal">{totalQuantity}{totalQuantity === 1 ? "item" : "items"}</span>
+                    My Bag,{" "}
+                    <span className="font-normal">
+                        {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
+                    </span>
                 </h2>
                 {items.length === 0 ? (
                     <p>Your cart is empty.</p>
