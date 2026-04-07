@@ -9,6 +9,8 @@ $allowedOrigins = [
     'http://localhost:5173',
     'https://ecommerce-webshop-three.vercel.app',
     'https://ecommerce-webshop-8v6nj1y2l-dalibors-projects-6432f5af.vercel.app',
+    'https://facenam3.github.io/ecommerce-webshop/',
+
 ];
 
 if(in_array($origin, $allowedOrigins, true)) {
