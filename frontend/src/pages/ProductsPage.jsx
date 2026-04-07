@@ -11,6 +11,8 @@ import { toKebabCase } from "../helper/string.js";
 export default function ProductsPage() {
     const {
         categories,
+        loading: loadingCategories,
+        error: errorCategories,
     } = useContext(CategoryContext);
 
     const { 
@@ -26,22 +28,26 @@ export default function ProductsPage() {
     } = useContext(CartContext);
 
     const { categoryName } = useParams();
+    const normalizeCategoryName = categoryName?.trim().toLowerCase();
 
     const activeCategory = categories?.find(
-    (category) => category.name.toLowerCase() === categoryName.toLowerCase()
+    (category) => category.name.trim().toLowerCase() === normalizeCategoryName
     );
 
     useEffect(() => {
-        if(!categoryName || !activeCategory) return;
+        if(!normalizeCategoryName) return;
+        if(loadingCategories) return;
 
         async function fetchData() {
             try {
-                if(activeCategory.name.toLowerCase() === 'all') {
+                if(normalizeCategoryName === 'all') {
                     await fetchProducts();
                     return;
                 }
+                
+                if(!activeCategory) return;
 
-                    await fetchProductsByCategory(activeCategory.id);
+                await fetchProductsByCategory(activeCategory.id);
                 
             } catch (error) {
                 console.error(error);
@@ -50,7 +56,11 @@ export default function ProductsPage() {
 
         fetchData();
 
-    }, [ categoryName, activeCategory ]);
+    }, [ 
+        normalizeCategoryName,
+        activeCategory,
+        loadingCategories,
+    ]);
 
     const handleQuickShopButton = (e, product) => {
         e.preventDefault();
@@ -80,14 +90,18 @@ export default function ProductsPage() {
         addItemToCart(cartItem);
     };
 
-    if(!categoryName) return (
-        <div className="text-center mt-30">
-            <h2 className="text-2xl font-semibold">Category not found</h2>
-            <p className="text-gray-500 mt-2">Try selecting another category.</p>
-        </div>
-    );
-    if(loadingProducts) return <div>Loading products...</div>
-    if(errorsProducts) return <div>Failed to fetch products...</div>
+    if(loadingCategories || loadingProducts ) return <div>Loading products...</div>
+    if(errorCategories || errorsProducts) return <div>Failed to fetch products...</div>
+
+    
+    if(normalizeCategoryName !== 'all' && categories.length > 0 && !activeCategory) {
+            return (
+            <div className="text-center mt-30">
+                <h2 className="text-2xl font-semibold">Category not found</h2>
+                <p className="text-gray-500 mt-2">Try selecting another category.</p>
+            </div>
+        )
+    };
 
     if(!products || products.length === 0) {
         return (
@@ -100,7 +114,7 @@ export default function ProductsPage() {
 
     return (
         <div className="container mx-auto p-5 mt-20">
-            <h1 className="capitalize text-3xl my-4">{activeCategory?.name ?? "Category"}</h1>
+            <h1 className="capitalize text-3xl my-4">{activeCategory?.name ?? normalizeCategoryName}</h1>
 
             <div className="grid grid-cols-3 gap-2">
                 {products?.map((product) => (
