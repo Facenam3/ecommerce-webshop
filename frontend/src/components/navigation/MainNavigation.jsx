@@ -8,11 +8,11 @@ import CartButton from "../UI/buttons/CartButton.jsx";
 
 export default function MainNavigation() {
     const {
-        openCart,
+        toggleCart,
     } = useContext(CartContext);
 
-    const handleOpenCart = () => {
-        openCart();
+    const handleToggleCart = () => {
+        toggleCart();
     }
 
 
@@ -23,7 +23,7 @@ export default function MainNavigation() {
                 <ShoppingCartButton  />
                 <CartButton
                     data-testid="cart-btn"
-                    onClick={handleOpenCart}    
+                    onClick={handleToggleCart}    
                 />             
             </div>            
         </header>
