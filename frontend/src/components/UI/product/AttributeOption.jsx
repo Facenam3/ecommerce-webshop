@@ -11,16 +11,20 @@ export default function AttributeOption({
     const isSelected = selectedValue === item.value;
 
     const kebabAttribute = toKebabCase(attributeName);
-    const kebabValue = toKebabCase(item.value || item.displayValue);
+    const optionValue = item.value || item.displayValue;
 
-    const baseTestId = `cart-item-attribute-${kebabAttribute}-${kebabValue}`;
-    const testId =
-        variant === "cart"
-            ? isSelected
-                ? `${baseTestId}-selected`
-                : baseTestId
-            : undefined
-    ;
+    let testId;
+
+    if(variant === "cart") {
+        const kebabValue = toKebabCase(optionValue);
+        const baseTestId = `cart-item-attribute-${kebabAttribute}-${kebabValue}`;
+
+        testId = isSelected ? `${baseTestId}-selected` : baseTestId;
+    }
+
+    if(variant === "pdp") {
+        testId = `product-attribute-${kebabAttribute}-${optionValue}`;
+    }
 
     const swatchSize = 
         variant === 'cart' ? 'w-6 h-6 text-xs' : 'w-10 h-10 text-base';
