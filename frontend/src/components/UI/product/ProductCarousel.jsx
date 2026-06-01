@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ProductCarouselItem from "./ProductCarouselImg";
-import PreviousButton from "../buttons/PreviousButton";
-import NextButton from "../buttons/NextButton";
+import ProductCarouselItem from "./ProductCarouselImg.jsx";
+import PreviousButton from "../buttons/PreviousButton.jsx";
+import NextButton from "../buttons/NextButton.jsx";
 
 export default function ProductCarousel({items = []}) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,7 +35,7 @@ export default function ProductCarousel({items = []}) {
             className="w-full flex"
             data-testid="product-gallery"
         >
-            <div className="w-1/5 h-[600px]">
+            <div className="w-1/4 h-[600px]">
             {items.length > 1 && (
                 <div className="h-full flex gap-3 flex-col overflow-y-auto pr-2">
                     {items.map((image,index) => (

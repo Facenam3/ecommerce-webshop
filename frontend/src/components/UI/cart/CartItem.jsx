@@ -31,7 +31,7 @@ export default function CartItem({items}) {
                     className="flex justify-between gap-4"
                 >
                     <div  className="flex flex-col gap-2 flex-1 p-1">
-                        <h2 className="text-xl text-gray-600">{item.name}</h2>
+                        <h2 className="text-md text-gray-600">{item.name}</h2>
                         <p>
                             {item.price.symbol}
                             {Number(item.price.amount).toFixed(2)}

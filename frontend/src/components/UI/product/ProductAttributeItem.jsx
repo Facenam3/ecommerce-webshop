@@ -14,7 +14,7 @@ export default function ProductAttributes({
             className="attributes"
             data-testid={`product-attribute-${toKebabCase(attributeName)}`}    
         >
-            <p className="font-semibold text-xl uppercase mb-3">{attributeName}:</p>
+            <p className="font-bold text-md uppercase mb-3">{attributeName}:</p>
             <div className="flex gap-2 mb-3">
                 {
                    items?.map((item) => {

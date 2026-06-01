@@ -39,8 +39,8 @@ export default function AttributeOption({
             <button
                 type="button"
                 data-testid={testId}
-                className={`${swatchSize} border-2 ${
-                    isSelected ? "ring-2 ring-black"
+                className={`${swatchSize} border-2 border-white ${
+                    isSelected ? "ring-2 ring-green-500"
                         : ""
                 }`}
                 style={{ backgroundColor: item.value}}

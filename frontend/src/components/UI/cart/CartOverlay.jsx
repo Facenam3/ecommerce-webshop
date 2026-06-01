@@ -36,11 +36,11 @@ export default function CartOverlay() {
                 onClick={closeCart}
             />
             <div 
-                className="fixed top-20 right-10 w-[440px] bg-white shadow-xl z-50 p-4 flex flex-col"
+                className="fixed top-22 right-25 w-[440px] max-h-[calc(100vh-80px)] bg-white shadow-xl z-50 px-4 py-10 flex flex-col"
                 data-testid="cart-overlay"
                 onClick={(e) => e.stopPropagation()}
                 >
-                <h2 className="text-xl font-bold mb-4">
+                <h2 className="text-md font-bold mb-4">
                     My Bag,{" "}
                     <span className="font-normal">
                         {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
@@ -54,7 +54,7 @@ export default function CartOverlay() {
                     </div>                    
                 )}
                 <div 
-                    className="py-8 px-1 flex justify-between font-bold text-xl"
+                    className="py-8 px-1 flex justify-between font-bold text-md"
                     data-testid="cart-total"    
                 >
                     <h2 className="capitalize">total</h2>

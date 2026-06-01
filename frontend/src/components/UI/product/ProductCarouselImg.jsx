@@ -5,7 +5,7 @@ export default function ProductCarouselItem({image, index}) {
             <img 
                 src={image} 
                 alt={`Product image ${index + 1}`}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
                 />
         </div>
     );

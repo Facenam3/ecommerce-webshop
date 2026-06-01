@@ -93,9 +93,6 @@ export default function Product() {
 
     return (
         <div className="container mx-auto p-6 mt-20">
-            {categoryName && (
-                <h1 className="capitalize text-3xl my-4">{categoryName}</h1>
-            )}
             <div className="my-5 flex gap-5">
                 <div className="w-5/6 p-5">
                    <ProductCarousel

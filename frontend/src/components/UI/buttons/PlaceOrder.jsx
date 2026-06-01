@@ -51,7 +51,7 @@ export default function PlaceOrder() {
             onClick={handlePlaceOrder}
             disabled={isDisabled}
             type="button"
-            className={`w-full px-5 py-6 uppercase text-xl ${
+            className={`w-full py-5 uppercase text-md font-semibold ${
                 isDisabled
                     ? 'bg-gray-500 text-white cursor-not-allowed opacity-60'
                     : loading

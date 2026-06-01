@@ -2,7 +2,7 @@ import QuickShopButton from "./buttons/QuickShopButton";
 
 export default function Card({ product, onQuickShop, ...props }) {
     const cardClasses = "group w-5/6 p-3 mb-5 hover:shadow-lg";
-    const imgClasses = "w-full h-[500px] p-1 mb-2 hover:bg-gray-50 relative";
+    const imgClasses = "w-full h-[400px] p-1 mb-2 hover:bg-gray-50 relative";
     const priceClasses = "text-gray-900 font-semibold";
 
     const outOfStockCard = (

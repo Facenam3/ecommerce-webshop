@@ -12,7 +12,7 @@ export default function ProductDetails({
 }) {
     return(
         <div className="w-full">
-            <h2 className="font-semibold text-3xl mb-2">{product?.name}</h2>
+            <h2 className="font-semibold text-3xl mb-8">{product?.name}</h2>
                 {
                     product.attributes?.map((item)=> {
                         return (
@@ -28,7 +28,7 @@ export default function ProductDetails({
                     })                     
                 }   
                 <h2 className="font-semibold text-xl mb-2 uppercase">Price:</h2>
-                <p className="font-bold text-3xl">
+                <p className="font-bold text-xl">
                     {product.prices[0].currency.symbol}
                     {Number(product.prices[0].amount).toFixed(2)}
                     </p>
