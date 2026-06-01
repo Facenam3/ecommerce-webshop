@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import ProductCarousel from "../components/UI/product/ProductCarousel.jsx";
 import ProductDetails from "../components/UI/product/ProductDetails.jsx";
@@ -20,9 +20,6 @@ export default function Product() {
 
     const [selectedAttributes, setSelectedAttributes] = useState({});
     const { id } = useParams();
-
-    const location = useLocation();
-    const categoryName = location.state?.categoryName;
 
     useEffect(() => {
         async function fetchProduct() {
