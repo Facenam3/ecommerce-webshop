@@ -10,6 +10,7 @@ export default function ProductDetails({
     isAddToCartDisabled,
     onAddToCart
 }) {
+
     return(
         <div className="w-full">
             <h2 className="font-semibold text-3xl mb-8">{product?.name}</h2>
@@ -31,7 +32,7 @@ export default function ProductDetails({
                 <p className="font-bold text-xl">
                     {product.prices[0].currency.symbol}
                     {Number(product.prices[0].amount).toFixed(2)}
-                    </p>
+                </p>
                 <AddToCart 
                     disabled={isAddToCartDisabled}
                     onClick={onAddToCart}

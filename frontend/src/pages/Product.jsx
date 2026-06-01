@@ -48,8 +48,10 @@ export default function Product() {
     const isConfigComplete = requiredAttributes.every(
         (attribute) => selectedAttributes[attribute.name]
     );
+
+    const isOutOfStock = product?.inStock;
+    const isAddToCartDisabled = !isConfigComplete || !isOutOfStock;
     
-    const isAddToCartDisabled = !isConfigComplete;
 
     const handleAddToCart = () => {
         if(!product || isAddToCartDisabled) return;
