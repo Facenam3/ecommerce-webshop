@@ -1,8 +1,8 @@
 import QuickShopButton from "./buttons/QuickShopButton";
 
 export default function Card({ product, onQuickShop, ...props }) {
-    const cardClasses = "group w-5/6 p-3 mb-5 hover:shadow-lg";
-    const imgClasses = "w-full h-[400px] p-1 mb-2 hover:bg-gray-50 relative";
+    const cardClasses = "group w-6/7 p-4 mb-5 hover:shadow-lg";
+    const imgClasses = "w-full aspect-[4/5] mb-2 bg-white hover:bg-gray-50 relative flex items-center justify-center";
     const priceClasses = "text-gray-900 font-semibold";
 
     const outOfStockCard = (
@@ -12,7 +12,7 @@ export default function Card({ product, onQuickShop, ...props }) {
         >
             <div className={imgClasses}>
                 <img
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     src={product.gallery[0]}
                     alt={product.name}
                 />
