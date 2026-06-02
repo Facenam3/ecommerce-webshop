@@ -49,8 +49,8 @@ export default function Product() {
         (attribute) => selectedAttributes[attribute.name]
     );
 
-    const isOutOfStock = product?.inStock;
-    const isAddToCartDisabled = !isConfigComplete || !isOutOfStock;
+    const isInStock = product?.inStock;
+    const isAddToCartDisabled = !isConfigComplete || !isInStock;
     
 
     const handleAddToCart = () => {
