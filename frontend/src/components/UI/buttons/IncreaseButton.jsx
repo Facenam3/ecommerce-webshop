@@ -4,7 +4,7 @@ export default function IncreaseButton({onClick, ...props}) {
             onClick={onClick}
             {...props}
             type="button"
-            className="w-8 h-8 border-2 px-1 py-1"
+            className="w-6 h-6 border-2 flex justify-center items-center"
         >
             <i className="fa-solid fa-plus"></i>
         </button>

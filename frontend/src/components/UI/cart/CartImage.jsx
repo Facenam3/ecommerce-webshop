@@ -1,10 +1,10 @@
 export default function CartImage({image, name}) {
     return (
-        <div className="w-35 h-40">
+        <div className="w-36 h-40">
             <img  
                 src={image} 
                 alt={name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
             />
         </div>
     );

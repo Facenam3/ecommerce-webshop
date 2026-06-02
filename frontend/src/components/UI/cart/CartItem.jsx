@@ -64,7 +64,7 @@ export default function CartItem({items}) {
                         })}
                         
                     </div> 
-                    <div className="flex flex-col justify-between items-center py-4">
+                    <div className="flex flex-col justify-between items-center py-2">
                         <IncreaseButton 
                             onClick={() => handleIncrease(index)}
                             data-testid="cart-item-amount-increase"
