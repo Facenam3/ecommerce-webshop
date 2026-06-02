@@ -8,7 +8,7 @@ export default function ShoppingBag() {
             className="relative p-2 cursor-pointer"
             to="/all"
             >
-            <ShoppingBagIcon className="h-8 w-8 text-green-500" />
+            <ShoppingBagIcon className="h-10 w-10 text-green-500" />
         </Link>
     );
 }
