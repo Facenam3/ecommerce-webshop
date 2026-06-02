@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { NavLink,useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import CategoryContext from "../../store/contexts/CategoryContext.jsx";
 
 import { toCategoryPath } from "../../helper/string.js";
@@ -20,19 +20,31 @@ export default function CategoryNav() {
         <nav className="flex gap-5 items-center text-2xl uppercase">
             {navCategories?.map((cat) => {
                 const path = toCategoryPath(cat.name);
-                const isCategoryActive = location.pathname === path;
+
+                const currentCategoryPath =
+                    location.state?.fromCategory ?? location.pathname;
+
+                const isCategoryActive = currentCategoryPath === path;
 
                 return (
-                     <NavLink
+                    <NavLink
                         key={cat.id}
                         to={path}
-                        data-testid={isCategoryActive ? "active-category-link" : "category-link"}
-                        className={isCategoryActive ? "underline underline-offset-24 text-green-500" : ""}                        
+                        data-testid={
+                            isCategoryActive
+                                ? "active-category-link"
+                                : "category-link"
+                        }
+                        className={
+                            isCategoryActive
+                                ? "underline underline-offset-24 text-green-500"
+                                : ""
+                        }
                     >
-                        {cat.name}                        
+                        {cat.name}
                     </NavLink>
-                )               
-            })}
+                    );
+                })}
         </nav>
     )
 }

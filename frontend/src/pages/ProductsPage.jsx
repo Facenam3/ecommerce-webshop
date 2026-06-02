@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import CategoryContext from "../store/contexts/CategoryContext.jsx";
 import ProductContext from "../store/contexts/ProductContext.jsx";
@@ -28,6 +28,7 @@ export default function ProductsPage() {
     } = useContext(CartContext);
 
     const { categoryName } = useParams();
+    const location = useLocation();
     const normalizeCategoryName = categoryName?.trim().toLowerCase();
 
     const activeCategory = categories?.find(
@@ -123,7 +124,8 @@ export default function ProductsPage() {
                         to={`/product/${product.id}`}
                         state={{ 
                             categoryName: activeCategory?.name,
-                            categoryId: activeCategory?.id
+                            categoryId: activeCategory?.id,
+                            fromCategory: location.pathname
                         }}                   
                     >
                         <Card 
