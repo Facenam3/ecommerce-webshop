@@ -91,8 +91,8 @@ export default function Product() {
     }
 
     return (
-        <div className="container mx-auto p-6 mt-20">
-            <div className="my-5 flex gap-5">
+        <div className="container mx-auto p-10 mt-20">
+            <div className="my-5 flex gap-5 p-10">
                 <div className="w-5/6 p-5">
                    <ProductCarousel
                         items={product.gallery}
