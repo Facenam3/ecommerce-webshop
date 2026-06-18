@@ -1,4 +1,4 @@
-🛒 Scandiweb Full-Stack Test Project
+Full-Stack E-Commerce Web Application
 
 📌 Overview
 
