@@ -32,12 +32,12 @@ export default function ProductCarousel({items = []}) {
 
     return (
         <div 
-            className="w-full flex"
+            className="w-full flex flex-col-reverse lg:flex-row gap-3 lg:gap-1"
             data-testid="product-gallery"
         >
-            <div className="w-1/5 h-[600px]">
+            <div className="w-full lg:w-1/5 mb-2 lg:h-[600px]">
             {items.length > 1 && (
-                <div className="h-full flex gap-3 flex-col overflow-y-auto pr-2">
+                <div className="h-full flex gap-3 flex-row lg:flex-col overflow-x-auto lg:overflow-y-auto pr-2">
                     {items.map((image,index) => (
                         <button 
                             key={image}
@@ -59,7 +59,7 @@ export default function ProductCarousel({items = []}) {
                 </div>
             )}</div>
             <div 
-                className="relative w-4/5 h-[600px] bg-white overflow-hidden"
+                className="relative w-full lg:w-4/5 lg:h-[600px] bg-white overflow-hidden"
             >
                 <ProductCarouselItem
                     image={items[currentIndex]}
