@@ -25,7 +25,7 @@ export default function CategoryNav() {
     if(errors) return <nav>Failed to load categories..</nav>
     
     return (
-        <nav className="flex gap-5 items-center text-2xl uppercase">
+        <nav className="flex gap-5 items-center text-xl lg:text-2xl uppercase">
             {categories?.map((cat) => {
                 const isCategoryActive = String(cat.id) === String(activeCategoryId);
 
