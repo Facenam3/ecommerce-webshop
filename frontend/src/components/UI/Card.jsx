@@ -1,7 +1,7 @@
 import QuickShopButton from "./buttons/QuickShopButton";
 
 export default function Card({ product, onQuickShop }) {
-    const cardClasses = "group w-5/6 p-3 mb-5 hover:shadow-lg";
+    const cardClasses = "group w-full lg:w-5/6 p-3 mb-5 hover:shadow-lg";
     const imgClasses = "w-full h-[500px] p-1 mb-2 hover:bg-gray-50 relative";
     const priceClasses = "text-gray-900 font-semibold";
 
@@ -24,8 +24,8 @@ export default function Card({ product, onQuickShop }) {
                 </div>
             </div>
 
-            <div className="card-body p-1">
-                <h3 className="text-gray-500 mb-1">{product.name}</h3>
+            <div className="card-body text-center lg:text-left  p-1">
+                <h3 className="text-gray-500  mb-1">{product.name}</h3>
                 <p className="text-gray-400 font-semibold">
                     {product.prices[0].currency.symbol}
                     {product.prices[0].amount}
@@ -52,7 +52,7 @@ export default function Card({ product, onQuickShop }) {
                 </div>
             </div>
 
-            <div className="card-body p-1">
+            <div className="card-body text-center lg:text-left  p-1">
                 <h3 className="text-gray-500 mb-1">{product.name}</h3>
                 <p className={priceClasses}>
                     {product.prices[0].currency.symbol}

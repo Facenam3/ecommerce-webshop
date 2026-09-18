@@ -100,9 +100,9 @@ export default function ProductsPage() {
 
     return (
         <div className="container mx-auto p-5 mt-20">
-            <h1 className="capitalize text-3xl my-4">{activeCategory?.name ?? "Category"}</h1>
+            <h1 className="capitalize text-2xl lg:text-3xl text-center lg:text-left my-4">{activeCategory?.name ?? "Category"}</h1>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-1 lg:gap-2">
                 {products?.map((product) => (
                     <Link 
                         key={product.id} 
