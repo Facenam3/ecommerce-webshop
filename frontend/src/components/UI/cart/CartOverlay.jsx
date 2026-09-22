@@ -36,7 +36,7 @@ export default function CartOverlay() {
                 onClick={closeCart}
             />
             <div 
-                className="fixed top-20 right-10 w-[440px] bg-white shadow-xl z-50 p-4 flex flex-col"
+                className="fixed top-20 right-0 sm:right-4 lg:right-10 max-h-[calc(100vh-5rem)] w-full sm:w-[440px] bg-white shadow-xl z-50 p-4 flex flex-col"
                 onClick={(e) => e.stopPropagation()}
                 >
                 <h2 className="text-xl font-bold mb-4">
