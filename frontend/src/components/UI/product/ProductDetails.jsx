@@ -13,7 +13,7 @@ export default function ProductDetails({
 
     return(
         <div className="w-full">
-            <h2 className="font-semibold text-3xl mb-8">{product?.name}</h2>
+            <h2 className="font-semibold text-2xl lg:text-3xl mb-8">{product?.name}</h2>
                 {
                     product.attributes?.map((item)=> {
                         return (

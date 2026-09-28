@@ -92,13 +92,13 @@ export default function Product() {
 
     return (
         <div className="container mx-auto p-10 mt-20">
-            <div className="my-5 flex gap-5 p-10">
-                <div className="w-5/6 p-5">
+            <div className="my-5 flex-row lg:flex gap-2">
+                <div className="w-full lg:w-5/6 p-3 lg:p-5">
                    <ProductCarousel
                         items={product.gallery}
                    />
                 </div>
-                <div className="w-2/5">
+                <div className="w-full lg:w-2/5 text-center lg:text-left">
                     <ProductDetails 
                         product={product}
                         selectedAttributes={selectedAttributes}

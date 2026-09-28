@@ -36,28 +36,27 @@ export default function CartOverlay() {
                 onClick={closeCart}
             />
             <div
-                className="fixed top-20 right-40 w-[420px] max-h-[64vh] bg-white shadow-xl z-50 px-4 py-6 flex flex-col"
+                className="fixed top-20 right-0 sm:right-4 lg:right-10 max-h-[calc(100vh-5rem)] w-full sm:w-[440px] bg-white shadow-xl z-50 p-4 flex flex-col"
                 data-testid="cart-overlay"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="shrink-0 text-md font-bold mb-4">
+                <h2 className="text-xl font-bold mb-4">
                     My Bag,{" "}
                     <span className="font-normal">
                         {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
                     </span>
                 </h2>
-
-                <div className="flex-1 min-h-0 overflow-y-auto">
-                    {items.length === 0 ? (
-                        <p>Your cart is empty.</p>
-                    ) : (
+                {items.length === 0 ? (
+                    <p>Your cart is empty.</p>
+                ) : (
+                    <div className="max-h-[60vh] overflow-y-auto">
                         <CartItem items={items} />
-                    )}
-                </div>
+                    </div>                    
+                )}
 
                 <div className="shrink-0 bg-white pt-4">
                     <div
-                        className="py-4 px-1 flex justify-between font-bold text-md"
+                        className="py-8 px-1 flex justify-between font-bold text-md lg:text-xl"
                         data-testid="cart-total"
                     >
                         <h2 className="capitalize">total</h2>

@@ -17,7 +17,7 @@ export default function CategoryNav() {
         categories && categories.length > 0 ? categories : fallbackCategories;
     
     return (
-        <nav className="flex gap-5 items-center text-2xl uppercase">
+        <nav className="flex gap-5 items-center text-xl lg:text-2xl uppercase">
             {navCategories?.map((cat) => {
                 const path = toCategoryPath(cat.name);
 

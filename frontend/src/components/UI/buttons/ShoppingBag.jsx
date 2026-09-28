@@ -12,7 +12,7 @@ export default function ShoppingBag() {
             onClick={() => navigate("/all")}
             aria-label="Go to all products"
             >
-            <ShoppingBagIcon className="h-10 w-10 text-green-500" />
+            <ShoppingBagIcon className="h-6 w-6 lg:h-8 lg:w-8 text-green-500" />
         </button>
     );
 }
